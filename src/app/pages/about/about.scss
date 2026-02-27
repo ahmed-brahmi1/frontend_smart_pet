@@ -1,0 +1,618 @@
+.about-container {
+  padding: 40px;
+  background: #f4f7fb;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
+/* HERO */
+.hero {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.hero h1 {
+  font-size: 36px;
+  color: #1f3b73;
+}
+
+.hero p {
+  max-width: 600px;
+  margin: 20px auto;
+  color: #555;
+}
+
+.cta {
+  background: #2f5bd5;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 15px;
+}
+
+/* VIDEO */
+.video-section {
+  padding: 80px 20px;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.video-title {
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 40px;
+  letter-spacing: -0.5px;
+  position: relative;
+}
+
+.video-title:after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 3px;
+  background: #3498db;
+  margin: 15px auto 0;
+  border-radius: 2px;
+}
+
+.video-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+  background: #000;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.video-wrapper:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 30px 50px rgba(0,0,0,0.25);
+}
+
+.professional-video {
+  width: 100%;
+  height: auto;
+  display: block;
+  background: #000;
+}
+
+/* Custom video controls styling */
+.professional-video::-webkit-media-controls {
+  background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+}
+
+.professional-video::-webkit-media-controls-panel {
+  padding: 10px;
+}
+
+/* Optional play button overlay */
+.video-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.3);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.video-wrapper:hover .video-overlay {
+  opacity: 1;
+}
+
+.custom-play-btn {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: #3498db;
+  border: none;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(52,152,219,0.4);
+}
+
+.custom-play-btn:hover {
+  background: #2980b9;
+  transform: scale(1.1);
+}
+
+.custom-play-btn svg {
+  width: 35px;
+  height: 35px;
+  margin-left: 3px; /* Adjust for optical centering */
+}
+
+.video-caption {
+  text-align: center;
+  margin-top: 20px;
+  color: #34495e;
+  font-size: 1.1rem;
+  font-weight: 400;
+  opacity: 0.8;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .video-section {
+    padding: 50px 15px;
+  }
+  
+  .video-title {
+    font-size: 2rem;
+  }
+  
+  .custom-play-btn {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .custom-play-btn svg {
+    width: 25px;
+    height: 25px;
+  }
+}
+
+
+/* FEATURES */
+.features {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-bottom: 50px;
+}
+
+.feature-card {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  width: 250px;
+  text-align: center;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+/* FINAL CTA */
+.final-cta {
+  text-align: center;
+}
+
+.cta-large {
+  background: #1f3b73;
+  color: white;
+  border: none;
+  padding: 15px 35px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 18px;
+}
+/* ================= PRICING ================= */
+
+.pricing {
+  padding: 80px 20px;
+  text-align: center;
+  background: linear-gradient(to right, #f4f7fb, #e9efff);
+}
+
+.pricing h2 {
+  font-size: 32px;
+  margin-bottom: 40px;
+  color: #1f3b73;
+}
+
+.pricing-container {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.price-card {
+  background: white;
+  width: 300px;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease;
+  position: relative;
+}
+
+.price-card:hover {
+  transform: translateY(-10px);
+}
+
+.price-card h3 {
+  margin-bottom: 10px;
+}
+
+.price {
+  font-size: 28px;
+  font-weight: bold;
+  margin: 20px 0;
+}
+
+.price span {
+  font-size: 16px;
+  color: gray;
+}
+
+.price-card ul {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 20px;
+}
+
+.price-card ul li {
+  margin: 10px 0;
+  font-size: 14px;
+}
+
+.price-card button {
+  background: #2f5bd5;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.price-card button:hover {
+  background: #1f3b73;
+}
+
+/* PRO PLAN HIGHLIGHT */
+
+.pro {
+  border: 2px solid #2f5bd5;
+}
+
+.badge {
+  position: absolute;
+  top: -10px;
+  right: 20px;
+  background: #2f5bd5;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+}
+
+/* ================= TESTIMONIALS ================= */
+
+.testimonials {
+  padding: 80px 20px;
+  background: white;
+  text-align: center;
+}
+
+.testimonials h2 {
+  font-size: 30px;
+  margin-bottom: 40px;
+  color: #1f3b73;
+}
+
+.testimonial-card {
+  max-width: 600px;
+  margin: auto;
+  background: #f4f7fb;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+}
+
+.testimonial-card img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin-bottom: 20px;
+}
+
+blockquote {
+  font-style: italic;
+  margin-bottom: 15px;
+  color: #444;
+}
+
+.author {
+  font-weight: bold;
+  color: #2f5bd5;
+}
+/* Animation de base pour tous les éléments */
+.hero, .video-section, .features, .pricing, .testimonials, .final-cta {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeUp 0.8s forwards;
+}
+
+/* Ajouter un délai progressif pour un effet cascade */
+.video-section {
+  animation-delay: 0.2s;
+}
+
+.features {
+  animation-delay: 0.4s;
+}
+
+.pricing {
+  animation-delay: 0.6s;
+}
+
+.testimonials {
+  animation-delay: 0.8s;
+}
+
+.final-cta {
+  animation-delay: 1s;
+}
+
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* ===== SMOOTH ENTRANCE ANIMATIONS ===== */
+
+.hero, .stats, .video-section, .why-us,
+.features, .pricing, .testimonials, .final-cta {
+  opacity: 0;
+  transform: translateY(50px);
+  animation: fadeUpSmooth 1s ease forwards;
+}
+
+.stats { animation-delay: 0.2s; }
+.video-section { animation-delay: 0.4s; }
+.why-us { animation-delay: 0.6s; }
+.features { animation-delay: 0.8s; }
+.pricing { animation-delay: 1s; }
+.testimonials { animation-delay: 1.2s; }
+.final-cta { animation-delay: 1.4s; }
+
+@keyframes fadeUpSmooth {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== STATISTICS STYLE ===== */
+
+.stats {
+  text-align: center;
+  padding: 80px 20px;
+  background: white;
+}
+
+.stats-container {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-top: 40px;
+  flex-wrap: wrap;
+}
+
+.stat-card {
+  background: #f4f7fb;
+  padding: 30px;
+  border-radius: 15px;
+  width: 250px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+  transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: scale(1.05);
+}
+
+.stat-card h3 {
+  font-size: 36px;
+  color: #2f5bd5;
+}
+
+/* WHY US */
+
+.why-us {
+  padding: 80px 20px;
+  text-align: center;
+  background: linear-gradient(to right, #f4f7fb, #e9efff);
+}
+
+.why-container {
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+  margin-top: 40px;
+  flex-wrap: wrap;
+}
+
+.why-card {
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  width: 280px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+  transition: transform 0.3s ease;
+}
+
+.why-card:hover {
+  transform: translateY(-10px);
+}
+/* OVERLAY */
+.payment-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  animation: fadeIn 0.3s ease;
+}
+
+/* MODAL */
+.payment-modal {
+  background: white;
+  width: 400px;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+  position: relative;
+  animation: slideUp 0.3s ease;
+}
+
+.payment-modal h2 {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.close-btn {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.row {
+  display: flex;
+  gap: 10px;
+}
+
+.pay-btn {
+  width: 100%;
+  padding: 12px;
+  background: #2f5bd5;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  margin-top: 15px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.pay-btn:hover {
+  background: #1e3fa8;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0 }
+  to { opacity: 1 }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(30px); opacity: 0 }
+  to { transform: translateY(0); opacity: 1 }
+}
+.credit-card {
+  background: linear-gradient(135deg, #2f5bd5, #6a11cb);
+  color: white;
+  padding: 20px;
+  border-radius: 15px;
+  margin-bottom: 15px;
+  animation: fadeIn 0.4s ease;
+}
+
+.card-number {
+  font-size: 18px;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+}
+
+.card-holder, .card-expiry {
+  font-size: 14px;
+}
+
+.card-logos {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.card-logos img {
+  height: 30px;
+}
+
+.success-message {
+  margin-top: 15px;
+  color: green;
+  text-align: center;
+  font-weight: bold;
+}
+/* NAVBAR */
+.website-navbar {
+  position: sticky;
+  top: 0;
+  background: white;
+  padding: 15px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  z-index: 100;
+}
+
+.website-navbar .logo {
+  font-weight: bold;
+  font-size: 18px;
+  color: #2f5bd5;
+}
+
+.nav-links a {
+  margin-left: 20px;
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+.nav-links a:hover {
+  color: #2f5bd5;
+}
+
+/* FOOTER */
+.website-footer {
+  background: #f8f9fa;
+  text-align: center;
+  padding: 20px;
+  margin-top: 60px;
+  font-size: 14px;
+  color: gray;
+}

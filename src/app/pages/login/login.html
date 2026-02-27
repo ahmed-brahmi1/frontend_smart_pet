@@ -1,0 +1,34 @@
+<div class="login-container">
+  <div class="login-card">
+
+    <div class="logo">🐾</div>
+
+    <h2>Smart Pet</h2>
+    <p class="subtitle">
+      Login to monitor your pet's health and activity
+    </p>
+
+    <form (ngSubmit)="onLogin()">
+      <input
+        type="email"
+        placeholder="Email"
+        [(ngModel)]="email"
+        name="email"
+        required
+      />
+
+      <input
+        type="password"
+        placeholder="Password"
+        [(ngModel)]="password"
+        name="password"
+        required
+      />
+
+      <button type="submit">
+        Login
+      </button>
+    </form>
+
+  </div>
+</div>

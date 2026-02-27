@@ -1,0 +1,49 @@
+<div class="login-container">
+  <div class="login-card">
+
+    <div class="logo">🐾</div>
+
+    <h2>Create Account</h2>
+    <p class="subtitle">
+      Create your Smart Pet account to start monitoring
+    </p>
+
+    <form (ngSubmit)="onRegister()">
+
+      <input
+        type="text"
+        placeholder="Full Name"
+        [(ngModel)]="name"
+        name="name"
+        required
+      />
+
+      <input
+        type="email"
+        placeholder="Email"
+        [(ngModel)]="email"
+        name="email"
+        required
+      />
+
+      <input
+        type="password"
+        placeholder="Password"
+        [(ngModel)]="password"
+        name="password"
+        required
+      />
+
+      <button type="submit">
+        Create Account
+      </button>
+
+    </form>
+
+    <p class="subtitle" style="margin-top:15px; cursor:pointer;"
+       (click)="goToLogin()">
+       You already have an account?
+    </p>
+
+  </div>
+</div>

@@ -1,0 +1,28 @@
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="logo">
+      🐾 <span>Smart Pet</span>
+    </div>
+
+    <nav>
+      <a routerLink="/s" routerLinkActive="active">Dashboard</a>
+      <a routerLink="/dashboard" routerLinkActive="active">Health Monitoring</a>
+      <a routerLink="/feeding" routerLinkActive="active">Feeding Management</a>
+      <a>Admin Panel</a>
+      <a routerLink="/about" routerLinkActive="active">About Us</a>
+
+    </nav>
+
+    <div class="logout">
+      Logout
+    </div>
+  </aside>
+
+  <!-- PAGE CONTENT -->
+  <main class="content">
+    <router-outlet></router-outlet>
+  </main>
+
+</div>
