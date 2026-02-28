@@ -1,58 +1,89 @@
 <div class="page">
-
   <div class="header">
     <div>
       <h1>Feeding Management</h1>
-      <p>Manage feeding schedules and track consumption</p>
-    </div>
-
-    <button class="add-btn">+ Add Schedule</button>
-  </div>
-
-  <!-- CARDS -->
-  <div class="cards">
-    <div class="card">
-      <h4>Today's Total</h4>
-      <p class="big">285g</p>
-      <span class="success">95% of target</span>
-    </div>
-
-    <div class="card">
-      <h4>Active Schedules</h4>
-      <p class="big">0</p>
-      <span>Feeding times</span>
-    </div>
-
-    <div class="card">
-      <h4>Weekly Average</h4>
-      <p class="big">282g</p>
-      <span class="info">↑ 5% from last week</span>
-    </div>
-
-    <div class="card">
-      <h4>Next Feeding</h4>
-      <p class="big">6:00 PM</p>
-      <span>In 2 hours</span>
+      <p>Manage feeding schedules for your feeder devices</p>
     </div>
   </div>
 
-  <!-- MAIN CONTENT -->
-  <div class="content-grid">
+  <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
+  <div *ngIf="loading" class="loading">Loading...</div>
 
-    <div class="box">
-      <h3>Feeding Schedules</h3>
-      <div class="empty">
-        No feeding schedules yet. Add one to get started!
+  <ng-container *ngIf="!loading">
+    <!-- Feeder selector -->
+    <div class="feeder-select" *ngIf="feederDevices.length > 0">
+      <label for="feeder">Feeder device</label>
+      <select id="feeder" [ngModel]="selectedDeviceId" (ngModelChange)="selectedDeviceId = $event; onDeviceChange()">
+        <option *ngFor="let d of feederDevices" [value]="d.id">{{ d.mac_address }}</option>
+      </select>
+      <a *ngIf="selectedDeviceId" [routerLink]="['/device', selectedDeviceId]" class="link-device">View device →</a>
+    </div>
+
+    <div *ngIf="feederDevices.length === 0" class="empty-card">
+      No feeder devices found. Register a FEEDER device from the backend or claim one from the dashboard.
+    </div>
+
+    <ng-container *ngIf="selectedDeviceId && feederDevices.length > 0">
+      <!-- Summary cards -->
+      <div class="cards">
+        <div class="card">
+          <h4>Feeder</h4>
+          <p class="big">{{ selectedDevice?.mac_address ?? '--' }}</p>
+        </div>
+        <div class="card">
+          <h4>Active schedules</h4>
+          <p class="big">{{ schedules.length }}</p>
+          <span>Feeding times</span>
+        </div>
+        <div class="card">
+          <h4>Enabled</h4>
+          <p class="big">{{ enabledSchedulesCount }}</p>
+        </div>
       </div>
-    </div>
 
-    <div class="box">
-      <h3>Daily Consumption This Week</h3>
-      <div class="chart-placeholder">
-        📊 Chart coming soon
+      <!-- Schedules box -->
+      <div class="box">
+        <div class="box-header">
+          <h3>Feeding schedules</h3>
+          <button type="button" class="add-btn" (click)="openAddSchedule()">+ Add schedule</button>
+        </div>
+
+        <div *ngIf="showScheduleForm" class="form-card">
+          <h4>{{ editingSchedule ? 'Edit schedule' : 'New schedule' }}</h4>
+          <p *ngIf="scheduleSubmitError" class="form-error">{{ scheduleSubmitError }}</p>
+          <div class="form-row">
+            <label>Time</label>
+            <input type="time" [(ngModel)]="scheduleTime" />
+          </div>
+          <div class="form-row">
+            <label>Portion (g, optional)</label>
+            <input type="number" min="0" step="1" [(ngModel)]="schedulePortion" placeholder="Optional" />
+          </div>
+          <div class="form-row checkbox">
+            <label>
+              <input type="checkbox" [(ngModel)]="scheduleEnabled" />
+              Enabled
+            </label>
+          </div>
+          <div class="form-actions">
+            <button type="button" class="btn secondary" (click)="cancelScheduleForm()">Cancel</button>
+            <button type="button" class="btn primary" (click)="submitSchedule()">Save</button>
+          </div>
+        </div>
+
+        <ul class="schedule-list" *ngIf="schedules.length > 0">
+          <li *ngFor="let s of schedules" class="schedule-item">
+            <span class="time">{{ formatTime(s.time_of_day) }}</span>
+            <span class="portion" *ngIf="s.portion_grams != null">{{ s.portion_grams }} g</span>
+            <span class="enabled" [class.off]="!s.enabled">{{ s.enabled ? 'On' : 'Off' }}</span>
+            <div class="actions">
+              <button type="button" class="btn small" (click)="openEditSchedule(s)">Edit</button>
+              <button type="button" class="btn small danger" (click)="deleteSchedule(s)">Delete</button>
+            </div>
+          </li>
+        </ul>
+        <p *ngIf="schedules.length === 0 && !showScheduleForm" class="empty">No feeding schedules. Add one to get started.</p>
       </div>
-    </div>
-
-  </div>
-
+    </ng-container>
+  </ng-container>
 </div>

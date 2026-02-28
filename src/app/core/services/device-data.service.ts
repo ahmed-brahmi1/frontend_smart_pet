@@ -10,17 +10,32 @@ export interface DeviceDatum {
   battery_level: number;
   gps_lat?: number | null;
   gps_lng?: number | null;
+  temperature?: number | null;
   food_level_grams?: number | null;
+  water_level?: number | null;
   timestamp: string;
 }
 
-/** Request body for POST /device-data/ingest */
+/** Request body for POST /device-data/ingest (collar: gps + temperature; feeder: food_level_grams + water_level) */
 export interface IngestDeviceDataDto {
   device_id: string;
   battery_level: number;
   gps_lat?: number;
   gps_lng?: number;
+  temperature?: number;
   food_level_grams?: number;
+  water_level?: number;
+}
+
+/** Request body for POST /device-data (create) */
+export interface CreateDeviceDataDto {
+  device_id: string;
+  battery_level: number;
+  gps_lat?: number;
+  gps_lng?: number;
+  temperature?: number;
+  food_level_grams?: number;
+  water_level?: number;
 }
 
 @Injectable({
@@ -35,7 +50,7 @@ export class DeviceDataService {
     return this.http.post<DeviceDatum>(`${this.apiUrl}/ingest`, body);
   }
 
-  create(body: Record<string, unknown> = {}): Observable<DeviceDatum> {
+  create(body: CreateDeviceDataDto): Observable<DeviceDatum> {
     return this.http.post<DeviceDatum>(this.apiUrl, body);
   }
 
@@ -47,10 +62,7 @@ export class DeviceDataService {
     return this.http.get<DeviceDatum>(`${this.apiUrl}/${id}`);
   }
 
-  update(
-    id: string,
-    body: Partial<Record<string, unknown>>
-  ): Observable<DeviceDatum> {
+  update(id: string, body: Partial<CreateDeviceDataDto>): Observable<DeviceDatum> {
     return this.http.patch<DeviceDatum>(`${this.apiUrl}/${id}`, body);
   }
 

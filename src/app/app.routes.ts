@@ -3,6 +3,7 @@ import { Login } from './pages/login/login';
 import { Register } from './pages/register/register';
 import { Layout } from './layout/layout';
 import { Dashboard } from './pages/dashboard/dashboard';
+import { DeviceDetail } from './pages/device-detail/device-detail';
 import { Feeding } from './pages/feeding/feeding';
 import { About } from './pages/about/about';
 import { authGuard } from './core/guards/auth.guard';
@@ -18,6 +19,7 @@ export const routes: Routes = [
     canActivate: [authGuard],
     children: [
       { path: 'dashboard', component: Dashboard },
+      { path: 'device/:id', component: DeviceDetail },
       { path: 'feeding', component: Feeding },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
     ],

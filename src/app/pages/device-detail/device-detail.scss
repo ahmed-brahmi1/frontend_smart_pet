@@ -1,0 +1,318 @@
+.page {
+  padding: 20px;
+  max-width: 900px;
+}
+
+.back {
+  background: none;
+  border: none;
+  color: #2f5bd5;
+  cursor: pointer;
+  margin-bottom: 16px;
+  padding: 0;
+  font-size: 14px;
+}
+
+.back:hover {
+  text-decoration: underline;
+}
+
+.error {
+  color: #c00;
+  background: #ffe0e0;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+.loading {
+  padding: 24px;
+  color: #666;
+}
+
+.header {
+  margin-bottom: 24px;
+
+  h1 {
+    margin: 0 0 8px 0;
+    font-size: 1.5rem;
+    color: #333;
+  }
+}
+
+.meta {
+  margin: 0;
+  font-size: 14px;
+  color: #666;
+}
+
+.badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-right: 8px;
+
+  &.collar {
+    background: #e3f2fd;
+    color: #1565c0;
+  }
+
+  &.feeder {
+    background: #e8f5e9;
+    color: #2e7d32;
+  }
+}
+
+.section {
+  margin-bottom: 32px;
+
+  h2 {
+    font-size: 1.1rem;
+    color: #555;
+    margin-bottom: 16px;
+  }
+
+  h3 {
+    font-size: 1rem;
+    margin: 0 0 12px 0;
+    color: #333;
+  }
+}
+
+.cards {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.card {
+  min-width: 140px;
+  background: white;
+  padding: 16px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+
+  h3 {
+    margin: 0 0 8px 0;
+    font-size: 12px;
+    color: #666;
+    text-transform: uppercase;
+  }
+
+  p {
+    margin: 0;
+    font-size: 20px;
+    font-weight: bold;
+    color: #1f3b73;
+  }
+}
+
+.map-wrap {
+  margin-bottom: 24px;
+
+  .map-iframe {
+    border: 0;
+    border-radius: 8px;
+    display: block;
+  }
+}
+
+.no-gps {
+  color: #666;
+  padding: 16px;
+  background: #f5f5f5;
+  border-radius: 8px;
+  margin-bottom: 24px;
+}
+
+.audio-controls {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+
+  .hint {
+    color: #666;
+    font-size: 14px;
+    margin: 0 0 12px 0;
+  }
+
+  .btn-group {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .placeholder-note {
+    font-size: 12px;
+    color: #999;
+    margin: 0;
+  }
+}
+
+.btn {
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+
+  &.talk {
+    background: #2f5bd5;
+    color: white;
+  }
+
+  &.listen {
+    background: #1f3b73;
+    color: white;
+  }
+
+  &.primary {
+    background: #2f5bd5;
+    color: white;
+  }
+
+  &.secondary {
+    background: #e0e0e0;
+    color: #333;
+  }
+
+  &.small {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+
+  &.danger {
+    background: #c62828;
+    color: white;
+  }
+}
+
+.schedules-box {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.box-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+
+  h3 {
+    margin: 0;
+  }
+}
+
+.add-btn {
+  background: #2f5bd5;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.form-card {
+  background: #f8f9fa;
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+
+  h4 {
+    margin: 0 0 12px 0;
+    font-size: 1rem;
+  }
+}
+
+.form-error {
+  color: #c00;
+  font-size: 13px;
+  margin: 0 0 12px 0;
+}
+
+.form-row {
+  margin-bottom: 12px;
+
+  label {
+    display: block;
+    font-size: 13px;
+    color: #555;
+    margin-bottom: 4px;
+  }
+
+  input[type='time'],
+  input[type='number'] {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    width: 100%;
+    max-width: 200px;
+  }
+
+  &.checkbox input {
+    margin-right: 8px;
+  }
+}
+
+.form-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.schedule-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.schedule-item {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.time {
+  font-weight: 600;
+  min-width: 60px;
+}
+
+.portion {
+  color: #666;
+  font-size: 14px;
+}
+
+.enabled {
+  font-size: 12px;
+  color: #2e7d32;
+
+  &.off {
+    color: #999;
+  }
+}
+
+.actions {
+  margin-left: auto;
+  display: flex;
+  gap: 8px;
+}
+
+.empty {
+  color: #666;
+  padding: 16px 0;
+  margin: 0;
+}

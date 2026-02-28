@@ -1,7 +1,5 @@
-export enum DeviceType {
-  COLLAR = 'COLLAR',
-  FEEDER = 'FEEDER',
-}
+/** Backend string enum: exactly two device types */
+export type DeviceType = 'COLLAR' | 'FEEDER';
 
 /** Matches backend DeviceStatus */
 export type DeviceStatus = 'unclaimed' | 'claimed';
