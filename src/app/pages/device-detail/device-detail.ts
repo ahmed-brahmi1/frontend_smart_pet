@@ -130,7 +130,7 @@ export class DeviceDetail implements OnInit {
   }
 
   goBack(): void {
-    this.router.navigate(['/dashboard']);
+    this.router.navigate(['/devices']);
   }
 
   openAddSchedule(): void {

@@ -1,0 +1,75 @@
+.devices-page {
+  max-width: 900px;
+}
+
+.subtitle {
+  color: #666;
+  margin-bottom: 1.5rem;
+}
+
+.error {
+  color: #c00;
+  margin-bottom: 1rem;
+}
+
+.loading,
+.empty {
+  color: #666;
+  padding: 2rem;
+}
+
+.devices-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+.device-card {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.25rem;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.06);
+  text-decoration: none;
+  color: inherit;
+  border: 1px solid transparent;
+  transition: border-color 0.2s, box-shadow 0.2s;
+
+  &:hover {
+    border-color: #1f3b73;
+    box-shadow: 0 6px 18px rgba(31, 59, 115, 0.12);
+  }
+
+  .device-mac {
+    font-family: monospace;
+    font-size: 0.95rem;
+    color: #333;
+  }
+
+  .device-badge {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+
+    &.collar {
+      background: #e8f4fc;
+      color: #1f3b73;
+    }
+
+    &.feeder {
+      background: #e8f5e9;
+      color: #2e7d32;
+    }
+  }
+
+  .device-status {
+    font-size: 0.85rem;
+    color: #666;
+    text-transform: capitalize;
+    margin-left: auto;
+  }
+}

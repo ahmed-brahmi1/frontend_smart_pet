@@ -9,9 +9,9 @@ export interface Pet {
   calorie_goal?: number | null;
 }
 
-/** Request body for POST /pet */
+/** Request body for POST /pet. Backend derives owner from JWT – do not send owner_id. */
 export interface CreatePetDto {
-  owner_id: string;
+  owner_id?: string;
   name: string;
   species: string;
   breed?: string;

@@ -6,6 +6,8 @@ import { Dashboard } from './pages/dashboard/dashboard';
 import { DeviceDetail } from './pages/device-detail/device-detail';
 import { Feeding } from './pages/feeding/feeding';
 import { About } from './pages/about/about';
+import { Pets } from './pages/pets/pets';
+import { Devices } from './pages/devices/devices';
 import { authGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
@@ -19,6 +21,8 @@ export const routes: Routes = [
     canActivate: [authGuard],
     children: [
       { path: 'dashboard', component: Dashboard },
+      { path: 'pets', component: Pets },
+      { path: 'devices', component: Devices },
       { path: 'device/:id', component: DeviceDetail },
       { path: 'feeding', component: Feeding },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },

@@ -5,60 +5,13 @@
   margin: 0;
 }
 
-/* SIDEBAR */
-.sidebar {
-  width: 250px;
-  background: #1f3b73;
-  color: white;
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-}
-
-.logo {
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 40px;
-}
-
-nav a {
+/* SIDEBAR - app-sidebar component owns its own styles */
+.layout app-sidebar {
   display: block;
-  padding: 12px;
-  margin-bottom: 10px;
-  border-radius: 6px;
-  cursor: pointer;
-  color: white;
-  text-decoration: none;
-}
-
-nav a:hover,
-nav a.active {
-  background: #2f5bd5;
-}
-
-.user-email {
-  margin-top: auto;
-  padding: 12px;
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.8);
-  word-break: break-all;
-}
-
-.logout {
-  margin-top: 8px;
-  width: 100%;
-  cursor: pointer;
-  padding: 12px;
-  border-radius: 6px;
-  border: none;
-  background: transparent;
-  color: white;
-  text-align: left;
-  font-size: inherit;
-}
-
-.logout:hover {
-  background: #2f5bd5;
+  width: 260px;
+  min-width: 260px;
+  flex-shrink: 0;
+  position: relative;
 }
 
 /* CONTENT */

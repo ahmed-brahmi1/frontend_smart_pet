@@ -1,0 +1,22 @@
+<main class="devices-page">
+  <h1>Devices</h1>
+  <p class="subtitle">Your Smart Pet devices (collars and feeders).</p>
+
+  <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+  <div class="loading" *ngIf="loading">Loading devices...</div>
+
+  <div class="devices-grid" *ngIf="!loading && devices.length > 0">
+    <a *ngFor="let d of devices" [routerLink]="['/device', d.id]" class="device-card">
+      <span class="device-mac">{{ d.mac_address }}</span>
+      <span class="device-badge" [class.collar]="d.type === 'COLLAR'" [class.feeder]="d.type === 'FEEDER'">
+        {{ d.type }}
+      </span>
+      <span class="device-status">{{ d.status }}</span>
+    </a>
+  </div>
+
+  <div class="empty" *ngIf="!loading && !errorMessage && devices.length === 0">
+    No devices yet. Claim or register a device to see it here.
+  </div>
+</main>
