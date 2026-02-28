@@ -211,6 +211,23 @@ nav a.active {
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
+.error {
+  color: #c00;
+  background: #ffe0e0;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.empty {
+  text-align: center;
+  padding: 40px;
+  color: #666;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
 // Responsive
 @media (min-width: 768px) {
   .charts-grid {

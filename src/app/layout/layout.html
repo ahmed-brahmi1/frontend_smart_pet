@@ -7,17 +7,17 @@
     </div>
 
     <nav>
-      <a routerLink="/s" routerLinkActive="active">Dashboard</a>
       <a routerLink="/dashboard" routerLinkActive="active">Health Monitoring</a>
       <a routerLink="/feeding" routerLinkActive="active">Feeding Management</a>
-      <a>Admin Panel</a>
       <a routerLink="/about" routerLinkActive="active">About Us</a>
-
     </nav>
 
-    <div class="logout">
-      Logout
+    <div class="user-email" *ngIf="auth.currentUser() as user">
+      {{ user.email }}
     </div>
+    <button type="button" class="logout" (click)="logout()">
+      Logout
+    </button>
   </aside>
 
   <!-- PAGE CONTENT -->

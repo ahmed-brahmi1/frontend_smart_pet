@@ -9,12 +9,12 @@
     </p>
 
     <form (ngSubmit)="onRegister()">
-
+      <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
       <input
         type="text"
         placeholder="Full Name"
-        [(ngModel)]="name"
-        name="name"
+        [(ngModel)]="full_name"
+        name="full_name"
         required
       />
 
@@ -34,8 +34,8 @@
         required
       />
 
-      <button type="submit">
-        Create Account
+      <button type="submit" [disabled]="loading">
+        {{ loading ? 'Creating account...' : 'Create Account' }}
       </button>
 
     </form>

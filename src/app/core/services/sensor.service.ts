@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 export interface Sensor {
   temperature: number;
@@ -14,7 +15,7 @@ export interface Sensor {
 })
 export class SensorService {
 
-  private apiUrl = 'http://localhost:8081/api/sensor';
+  private apiUrl = environment.apiUrl + '/sensor';
 
   constructor(private http: HttpClient) {}
 

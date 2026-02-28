@@ -9,6 +9,7 @@
     </p>
 
     <form (ngSubmit)="onLogin()">
+      <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
       <input
         type="email"
         placeholder="Email"
@@ -25,9 +26,13 @@
         required
       />
 
-      <button type="submit">
-        Login
+      <button type="submit" [disabled]="loading">
+        {{ loading ? 'Signing in...' : 'Login' }}
       </button>
+      <p class="subtitle" style="margin-top:15px; cursor:pointer;"
+         (click)="goToRegister()">
+        Don't have an account?
+      </p>
     </form>
 
   </div>

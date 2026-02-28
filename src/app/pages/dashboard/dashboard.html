@@ -1,86 +1,54 @@
+<main class="content">
+  <h1>Health Monitoring</h1>
+  <p class="subtitle">
+    Track your devices, pets, and sensor data from your Smart Pet backend
+  </p>
 
+  <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
 
-  <!-- MAIN CONTENT -->
-  <main class="content">
-    <h1>Health Monitoring</h1>
-    <p class="subtitle">
-      Track your pet's vital signs and activity patterns
-    </p>
-
-    <!-- STATS CARDS -->
-    <div class="cards">
-      <div class="card">
-        <h3>Avg Temperature</h3>
-        <p>{{ sensor?.temperature ?? '--' }}°C</p>  <!-- ← Donnée dynamique -->
-      </div>
-
-      <div class="card">
-        <h3>Avg Heart Rate</h3>
-        <p>{{ sensor?.heartRate ?? '--' }} BPM</p>  <!-- ← Donnée dynamique -->
-      </div>
-
-      <div class="card">
-        <h3>Daily Steps</h3>
-        <p>{{ sensor?.steps ?? '--' }}</p>  <!-- ← Donnée dynamique -->
-      </div>
-
-      <div class="card">
-        <h3>Health Score</h3>
-        <p>{{ sensor?.healthScore ?? '--' }}/100</p>  <!-- ← Donnée dynamique -->
-      </div>
+  <!-- STATS CARDS -->
+  <div class="cards">
+    <div class="card">
+      <h3>My Devices</h3>
+      <p>{{ devices.length }}</p>
     </div>
+    <div class="card">
+      <h3>My Pets</h3>
+      <p>{{ pets.length }}</p>
+    </div>
+    <div class="card">
+      <h3>Battery Level</h3>
+      <p>{{ latestBattery != null ? latestBattery + '%' : '--' }}</p>
+    </div>
+    <div class="card">
+      <h3>Food Level</h3>
+      <p>{{ latestFoodLevel != null ? latestFoodLevel + ' g' : '--' }}</p>
+    </div>
+  </div>
 
- 
-<div class="charts-grid" *ngIf="sensor && isBrowser">
-    <!-- Graphique Température -->
+  <div class="charts-grid" *ngIf="deviceData.length > 0 && isBrowser">
     <div class="chart-card">
       <div class="chart-header">
-        <h3>Temperature</h3>
-        <span class="chart-value">{{ sensor.temperature }}°C</span>
+        <h3>Battery level over time</h3>
       </div>
       <div class="chart-container">
-        <canvas id="tempChart"></canvas>
+        <canvas id="batteryChart"></canvas>
       </div>
     </div>
-
-    <!-- Graphique Heart Rate -->
-    <div class="chart-card">
+    <div class="chart-card" *ngIf="hasFoodLevelData">
       <div class="chart-header">
-        <h3>Heart Rate</h3>
-        <span class="chart-value">{{ sensor.heartRate }} BPM</span>
+        <h3>Food level over time (g)</h3>
       </div>
       <div class="chart-container">
-        <canvas id="heartChart"></canvas>
-      </div>
-    </div>
-
-    <!-- Graphique Steps -->
-    <div class="chart-card">
-      <div class="chart-header">
-        <h3>Steps</h3>
-        <span class="chart-value">{{ sensor.steps }}</span>
-      </div>
-      <div class="chart-container">
-        <canvas id="stepsChart"></canvas>
-      </div>
-    </div>
-
-    <!-- Graphique Health Score -->
-    <div class="chart-card">
-      <div class="chart-header">
-        <h3>Health Score</h3>
-        <span class="chart-value">{{ sensor.healthScore }}</span>
-      </div>
-      <div class="chart-container">
-        <canvas id="healthChart"></canvas>
+        <canvas id="foodChart"></canvas>
       </div>
     </div>
   </div>
 
-  <!-- Message de chargement -->
-  <div class="loading" *ngIf="!sensor">
-    Chargement des données...
+  <div class="loading" *ngIf="loading">
+    Loading...
   </div>
-  </main>
-
-  <style></style>
+  <div class="empty" *ngIf="!loading && !errorMessage && deviceData.length === 0">
+    No device data yet. Ingest data from your devices to see charts here.
+  </div>
+</main>
