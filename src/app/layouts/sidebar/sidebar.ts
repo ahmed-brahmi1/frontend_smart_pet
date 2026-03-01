@@ -40,7 +40,11 @@ export class Sidebar {
     const roleList = Array.isArray(role) ? role : (role ? [role] : []);
     const normalizedRoles = roleList.map((r) => String(r).toUpperCase());
     // Default to USER when no role (backend may not return role for regular users)
-    const rolesToCheck = normalizedRoles.length > 0 ? normalizedRoles : ['USER'];
+    let rolesToCheck = normalizedRoles.length > 0 ? normalizedRoles : ['USER'];
+    // ADMIN sees all USER pages plus User Management and Device Management
+    if (rolesToCheck.includes('ADMIN') && !rolesToCheck.includes('USER')) {
+      rolesToCheck = ['ADMIN', 'USER'];
+    }
     this.menuItems = MENU.filter(
       (item) =>
         !item.role ||

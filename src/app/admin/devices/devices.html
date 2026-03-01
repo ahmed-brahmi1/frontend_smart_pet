@@ -1,0 +1,136 @@
+<div class="devices-admin">
+  <div class="page-header-card card">
+    <div class="card-header">
+      <h2>Device management</h2>
+      <button type="button" class="btn-add" (click)="openAddDialog()">
+        <i class="ri ri-add-line"></i>
+        Add device
+      </button>
+    </div>
+    <p class="card-subtitle">Register and manage devices. Use the activation secret so owners can claim their device.</p>
+  </div>
+
+  <div class="card devices-card">
+    <h3 class="card-title">Devices</h3>
+    @if (loadingList()) {
+      <p class="loading-msg">Loading devices…</p>
+    } @else if (devices().length === 0) {
+      <p class="empty-msg">No devices yet. Add one with the button above.</p>
+    } @else {
+      <div class="devices-grid">
+        @for (d of devices(); track d.id) {
+          <div class="device-card">
+            <div class="device-card-header">
+              <span class="device-type" [class]="'type-' + d.type">{{ d.type }}</span>
+              <span class="device-status" [class]="'status-' + d.status">{{ d.status }}</span>
+            </div>
+            <div class="device-mac">{{ d.mac_address }}</div>
+            @if (d.owner_id) {
+              <div class="device-owner">Owner: {{ d.owner_id }}</div>
+            }
+            <div class="device-id">ID: {{ d.id }}</div>
+            <div class="device-card-actions">
+              <button type="button" class="btn-modify" (click)="openEditDialog(d)" title="Modify">
+                <i class="ri ri-edit-line"></i> Modify
+              </button>
+              <button type="button" class="btn-delete" (click)="deleteDevice(d)" title="Delete">
+                <i class="ri ri-delete-bin-line"></i> Delete
+              </button>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>
+
+<dialog #editDialog class="add-dialog edit-dialog" (close)="closeEditDialog()" (cancel)="closeEditDialog()">
+  <div class="dialog-inner">
+    <h3>Modify device</h3>
+    <form (ngSubmit)="onUpdate()">
+      <p *ngIf="editDialogError" class="error">{{ editDialogError }}</p>
+
+      <label for="edit_mac_address">MAC address</label>
+      <input
+        id="edit_mac_address"
+        type="text"
+        placeholder="e.g. AA:BB:CC:DD:EE:FF"
+        [(ngModel)]="edit_mac_address"
+        name="edit_mac_address"
+        required
+      />
+
+      <label for="edit_type">Type</label>
+      <select id="edit_type" [(ngModel)]="edit_type" name="edit_type">
+        @for (t of deviceTypes; track t) {
+          <option [value]="t">{{ t }}</option>
+        }
+      </select>
+
+      <label for="edit_status">Status</label>
+      <select id="edit_status" [(ngModel)]="edit_status" name="edit_status">
+        @for (s of deviceStatuses; track s) {
+          <option [value]="s">{{ s }}</option>
+        }
+      </select>
+
+      <label for="edit_owner_id">Owner ID (optional)</label>
+      <input
+        id="edit_owner_id"
+        type="text"
+        placeholder="User ID or leave empty"
+        [(ngModel)]="edit_owner_id"
+        name="edit_owner_id"
+      />
+
+      <div class="dialog-actions">
+        <button type="button" class="btn-cancel" (click)="closeEditDialog()">Cancel</button>
+        <button type="submit" class="btn-submit" [disabled]="editSubmitting">
+          {{ editSubmitting ? 'Saving…' : 'Save' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</dialog>
+
+<dialog #addDialog class="add-dialog" (close)="closeAddDialog()" (cancel)="closeAddDialog()">
+  <div class="dialog-inner">
+    <h3>Add device</h3>
+    <form (ngSubmit)="onRegister()">
+      <p *ngIf="dialogError" class="error">{{ dialogError }}</p>
+
+      <label for="mac_address">MAC address</label>
+      <input
+        id="mac_address"
+        type="text"
+        placeholder="e.g. AA:BB:CC:DD:EE:FF"
+        [(ngModel)]="mac_address"
+        name="mac_address"
+        required
+      />
+
+      <label for="type">Type</label>
+      <select id="type" [(ngModel)]="type" name="type">
+        @for (t of deviceTypes; track t) {
+          <option [value]="t">{{ t }}</option>
+        }
+      </select>
+
+      <label for="owner_id">Owner ID (optional)</label>
+      <input
+        id="owner_id"
+        type="text"
+        placeholder="User ID if pre-assigning"
+        [(ngModel)]="owner_id"
+        name="owner_id"
+      />
+
+      <div class="dialog-actions">
+        <button type="button" class="btn-cancel" (click)="closeAddDialog()">Cancel</button>
+        <button type="submit" class="btn-submit" [disabled]="submitting">
+          {{ submitting ? 'Registering…' : 'Register device' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</dialog>

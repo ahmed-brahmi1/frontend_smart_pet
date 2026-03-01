@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { DeviceService } from '../../core/services/device.service';
-import type { Device } from '../../core/models/device';
+import { DeviceService } from '../../../core/services/device.service';
+import type { Device } from '../../../core/models/device';
 
 @Component({
   selector: 'app-devices',

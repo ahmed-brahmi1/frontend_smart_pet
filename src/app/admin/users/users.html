@@ -1,0 +1,111 @@
+<div class="users-admin">
+  <div class="page-header-card card">
+    <div class="card-header">
+      <h2>User management</h2>
+      <button type="button" class="btn-add" (click)="openAddDialog()">
+        <i class="ri ri-add-line"></i>
+        Add user
+      </button>
+    </div>
+    <p class="card-subtitle">Create and manage user accounts and roles.</p>
+  </div>
+
+  <div class="card users-card">
+    <h3 class="card-title">Users</h3>
+    @if (loadingList()) {
+      <p class="loading-msg">Loading users…</p>
+    } @else if (users().length === 0) {
+      <p class="empty-msg">No users yet. Add one with the button above.</p>
+    } @else {
+      <div class="users-grid">
+        @for (u of users(); track u.id) {
+          <div class="user-card">
+            <div class="user-card-header">
+              <span class="user-role" [class]="'role-' + (u.role || 'USER')">{{ u.role || 'USER' }}</span>
+            </div>
+            <div class="user-email">{{ u.email }}</div>
+            @if (u.full_name) {
+              <div class="user-name">{{ u.full_name }}</div>
+            }
+            <div class="user-meta">Created {{ formatDate(u.created_at) }}</div>
+            <div class="user-id">ID: {{ u.id }}</div>
+            <div class="user-card-actions">
+              <button type="button" class="btn-modify" (click)="openEditDialog(u)" title="Modify">
+                <i class="ri ri-edit-line"></i> Modify
+              </button>
+              <button type="button" class="btn-delete" (click)="deleteUser(u)" title="Delete">
+                <i class="ri ri-delete-bin-line"></i> Delete
+              </button>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>
+
+<dialog #editDialog class="user-dialog" (close)="closeEditDialog()" (cancel)="closeEditDialog()">
+  <div class="dialog-inner">
+    <h3>Modify user</h3>
+    <form (ngSubmit)="onUpdate()">
+      <p *ngIf="editDialogError" class="error">{{ editDialogError }}</p>
+
+      <label for="edit_email">Email</label>
+      <input
+        id="edit_email"
+        type="email"
+        placeholder="user&#64;example.com"
+        [(ngModel)]="edit_email"
+        name="edit_email"
+        required
+      />
+
+      <label for="edit_role">Role</label>
+      <select id="edit_role" [(ngModel)]="edit_role" name="edit_role">
+        @for (r of roles; track r) {
+          <option [value]="r">{{ r }}</option>
+        }
+      </select>
+
+      <div class="dialog-actions">
+        <button type="button" class="btn-cancel" (click)="closeEditDialog()">Cancel</button>
+        <button type="submit" class="btn-submit" [disabled]="editSubmitting">
+          {{ editSubmitting ? 'Saving…' : 'Save' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</dialog>
+
+<dialog #addDialog class="user-dialog" (close)="closeAddDialog()" (cancel)="closeAddDialog()">
+  <div class="dialog-inner">
+    <h3>Add user</h3>
+    <form (ngSubmit)="onCreate()">
+      <p *ngIf="dialogError" class="error">{{ dialogError }}</p>
+
+      <label for="email">Email</label>
+      <input
+        id="email"
+        type="email"
+        placeholder="user&#64;example.com"
+        [(ngModel)]="email"
+        name="email"
+        required
+      />
+
+      <label for="role">Role</label>
+      <select id="role" [(ngModel)]="role" name="role">
+        @for (r of roles; track r) {
+          <option [value]="r">{{ r }}</option>
+        }
+      </select>
+
+      <div class="dialog-actions">
+        <button type="button" class="btn-cancel" (click)="closeAddDialog()">Cancel</button>
+        <button type="submit" class="btn-submit" [disabled]="submitting">
+          {{ submitting ? 'Creating…' : 'Create user' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</dialog>

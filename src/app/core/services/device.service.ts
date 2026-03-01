@@ -32,6 +32,9 @@ export class DeviceService {
   findAll(): Observable<Device[]> {
     return this.http.get<Device[]>(this.apiUrl);
   }
+  findAllByOwner(ownerId: string): Observable<Device[]> {
+    return this.http.get<Device[]>(`${this.apiUrl}/owner/${ownerId}`);
+  }
 
   findOne(id: string): Observable<Device> {
     return this.http.get<Device>(`${this.apiUrl}/${id}`);

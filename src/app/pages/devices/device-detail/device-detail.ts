@@ -12,11 +12,11 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { forkJoin, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { DeviceService } from '../../core/services/device.service';
-import { DeviceDataService, DeviceDatum } from '../../core/services/device-data.service';
-import { FeedingScheduleService } from '../../core/services/feeding-schedule.service';
-import type { Device } from '../../core/models/device';
-import type { FeedingSchedule, CreateFeedingScheduleDto } from '../../core/models/feeding-schedule';
+import { DeviceService } from '../../../core/services/device.service';
+import { DeviceDataService, DeviceDatum } from '../../../core/services/device-data.service';
+import { FeedingScheduleService } from '../../../core/services/feeding-schedule.service';
+import type { Device } from '../../../core/models/device';
+import type { FeedingSchedule, CreateFeedingScheduleDto } from '../../../core/models/feeding-schedule';
 
 @Component({
   selector: 'app-device-detail',
