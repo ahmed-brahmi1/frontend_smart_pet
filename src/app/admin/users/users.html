@@ -18,24 +18,26 @@
       <p class="empty-msg">No users yet. Add one with the button above.</p>
     } @else {
       <div class="users-grid">
-        @for (u of users(); track u.id) {
+        @for (user of users(); track user.id) {
           <div class="user-card">
             <div class="user-card-header">
-              <span class="user-role" [class]="'role-' + (u.role || 'USER')">{{ u.role || 'USER' }}</span>
+              <span class="user-role" [class]="'role-' + (user.role || 'USER')">{{ user.role || 'USER' }}</span>
             </div>
-            <div class="user-email">{{ u.email }}</div>
-            @if (u.full_name) {
-              <div class="user-name">{{ u.full_name }}</div>
+            <div class="user-email">{{ user.email }}</div>
+            @if (user.full_name) {
+              <div class="user-name">{{ user.full_name }}</div>
             }
-            <div class="user-meta">Created {{ formatDate(u.created_at) }}</div>
-            <div class="user-id">ID: {{ u.id }}</div>
+            <div class="user-meta">Created {{ formatDate(user.created_at) }}</div>
+            <div class="user-id">ID: {{ user.id }}</div>
             <div class="user-card-actions">
-              <button type="button" class="btn-modify" (click)="openEditDialog(u)" title="Modify">
-                <i class="ri ri-edit-line"></i> Modify
-              </button>
-              <button type="button" class="btn-delete" (click)="deleteUser(u)" title="Delete">
-                <i class="ri ri-delete-bin-line"></i> Delete
-              </button>
+              @if (currentUserId() !== null && user.id !== currentUserId()) {
+                <button type="button" class="btn-modify" (click)="openEditDialog(user)" title="Modify">
+                  <i class="ri ri-edit-line"></i> Modify
+                </button>
+                <button type="button" class="btn-delete" (click)="deleteUser(user)" title="Delete">
+                  <i class="ri ri-delete-bin-line"></i> Delete
+                </button>
+              }
             </div>
           </div>
         }

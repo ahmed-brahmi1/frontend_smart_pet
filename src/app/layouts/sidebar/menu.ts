@@ -22,7 +22,7 @@ export const MENU: MenuItem[] = [
     link: '/admin/device-management',
   },
   {
-    id: 1,
+    id: 6,
     label: 'Menu',
     isTitle: true,
   },

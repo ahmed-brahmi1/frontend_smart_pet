@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { UserService } from '../../core/services/user.service';
 import type { User, CreateUserDto, UpdateUserDto } from '../../core/models/user';
 import Swal from 'sweetalert2';
+import { AuthService } from '../../core/services/auth.service';
 
 const ROLES = ['USER', 'ADMIN'];
 
@@ -25,9 +26,10 @@ export class Users {
   @ViewChild('editDialog') editDialogRef!: ElementRef<HTMLDialogElement>;
 
   private userService = inject(UserService);
-
+  private authService = inject(AuthService);
   users = signal<User[]>([]);
   loadingList = signal(true);
+  currentUserId = signal<string | null>(null);
   email = '';
   role = 'USER';
   submitting = false;
@@ -42,13 +44,19 @@ export class Users {
   readonly roles = ROLES;
 
   constructor() {
-    this.loadUsers();
+    this.authService.currentUser.subscribe((user) => {
+      this.currentUserId.set(this.authService.getCurrentUserId());
+      if (user?.user?.role === 'ADMIN') {
+        this.loadUsers();
+      }
+    });
   }
 
   loadUsers(): void {
     this.loadingList.set(true);
     this.userService.findAll().subscribe({
       next: (list) => {
+        this.currentUserId.set(this.authService.getCurrentUserId());
         this.users.set(list);
         this.loadingList.set(false);
       },

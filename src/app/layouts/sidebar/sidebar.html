@@ -19,7 +19,7 @@
   <div class="sidebar-scroll" id="scrollbar">
     <div class="container-fluid">
       <ul class="navbar-nav" id="navbar-nav">
-        @for (item of menuItems; track item.id ?? $index) {
+        @for (item of menuItems; track $index) {
           <ng-container>
             @if (item.isTitle) {
               <li class="menu-title">
@@ -50,7 +50,7 @@
                   </a>
                   <div class="collapse menu-dropdown mega-dropdown-menu">
                     <ul class="nav nav-sm flex-column" aria-expanded="false">
-                      @for (subitem of item.subItems; track subitem.id ?? $index) {
+                      @for (subitem of item.subItems; track $index) {
                         <li class="nav-item">
                           @if (hasItems(subitem)) {
                             <a
@@ -65,7 +65,7 @@
                             </a>
                             <div class="collapse menu-dropdown sub-menu">
                               <ul class="nav nav-sm flex-column" aria-expanded="false">
-                                @for (subSubitem of subitem.subItems; track subSubitem.id ?? $index) {
+                                @for (subSubitem of subitem.subItems; track $index) {
                                   <li class="nav-item">
                                     @if (hasItems(subSubitem)) {
                                       <a
@@ -80,7 +80,7 @@
                                       </a>
                                       <div class="collapse menu-dropdown extra-sub-menu">
                                         <ul class="nav nav-sm flex-column" aria-expanded="false">
-                                          @for (subSubitem1 of subSubitem.subItems; track subSubitem1.id ?? $index) {
+                                          @for (subSubitem1 of subSubitem.subItems; track $index) {
                                             <li class="nav-item">
                                               <a
                                                 [attr.data-parent]="subSubitem1.parentId"
