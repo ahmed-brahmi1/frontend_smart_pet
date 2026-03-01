@@ -17,6 +17,7 @@ export class DeviceService {
 
   constructor(private http: HttpClient) {}
 
+  /** Claim device. Optionally pass pet_id to link to a pet in one step. */
   claim(body: ClaimDeviceDto): Observable<Device> {
     return this.http.post<Device>(`${this.apiUrl}/claim`, body);
   }

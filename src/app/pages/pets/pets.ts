@@ -1,6 +1,7 @@
 import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { PetService } from '../../core/services/pet.service';
 import type { Pet, CreatePetDto, UpdatePetDto } from '../../core/models/pet';
@@ -18,6 +19,7 @@ export class Pets implements OnInit {
   errorMessage = '';
   private readonly auth = inject(AuthService);
   private readonly petService = inject(PetService);
+  private readonly router = inject(Router);
   private readonly cdr = inject(ChangeDetectorRef);
 
   showForm = false;
@@ -117,6 +119,10 @@ export class Pets implements OnInit {
         },
       });
     }
+  }
+
+  goToMonitor(pet: Pet): void {
+    this.router.navigate(['/pet', pet.id]);
   }
 
   deletePet(pet: Pet): void {

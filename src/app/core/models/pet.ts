@@ -28,3 +28,8 @@ export interface UpdatePetDto {
   weight?: number;
   calorie_goal?: number;
 }
+
+/** Request body for POST /pet/:petId/devices/link */
+export interface LinkDeviceDto {
+  device_id: string;
+}

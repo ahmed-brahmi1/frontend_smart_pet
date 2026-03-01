@@ -171,6 +171,17 @@
       }
     }
 
+    .btn-monitor {
+      background: #2f5bd5;
+      border-color: #2f5bd5;
+      color: #fff;
+
+      &:hover {
+        background: #1f3b73;
+        border-color: #1f3b73;
+      }
+    }
+
     .btn-modify {
       background: #e8f4fc;
       border-color: #1f3b73;

@@ -51,8 +51,9 @@
             }
           </dl>
           <div class="pet-actions">
-            <button type="button" class="btn-modify" (click)="openEdit(pet)">Modify</button>
-            <button type="button" class="btn-delete" (click)="deletePet(pet)">Delete</button>
+            <button type="button" class="btn-monitor" (click)="goToMonitor(pet); $event.stopPropagation()">Monitor</button>
+            <button type="button" class="btn-modify" (click)="openEdit(pet); $event.stopPropagation()">Modify</button>
+            <button type="button" class="btn-delete" (click)="deletePet(pet); $event.stopPropagation()">Delete</button>
           </div>
         </div>
       }

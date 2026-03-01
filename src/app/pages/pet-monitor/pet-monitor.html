@@ -1,0 +1,115 @@
+<div class="page">
+  <button type="button" class="back" (click)="goBack()">← Back to pets</button>
+
+  @if (errorMessage) {
+    <p class="error">{{ errorMessage }}</p>
+  }
+  @if (loading) {
+    <div class="loading">Loading...</div>
+  }
+
+  @if (!loading && pet) {
+    <header class="header">
+      <div class="header-left">
+        <h1>{{ pet.name }}</h1>
+        <p class="meta">{{ pet.species }} @if (pet.breed) { · {{ pet.breed }} }</p>
+      </div>
+      <div class="header-right">
+        <button type="button" class="btn-link-device" (click)="openLinkDialog()">
+          Link device
+        </button>
+      </div>
+    </header>
+
+    <section class="section devices-section">
+      <h2>Devices</h2>
+      @if (devices.length === 0) {
+        <div class="no-devices">
+          <p>No devices added.</p>
+          <p class="hint">Click <strong>Link device</strong> (top right) to add and link a device to this pet.</p>
+        </div>
+      } @else {
+        <ul class="device-list">
+          @for (d of devices; track d.id) {
+            <li class="device-item">
+              <a [routerLink]="['/device', d.id]" class="device-link">
+                <span class="device-mac">{{ d.mac_address }}</span>
+                <span class="device-badge" [class.collar]="d.type === 'COLLAR'" [class.feeder]="d.type === 'FEEDER'">
+                  {{ d.type }}
+                </span>
+                <span class="device-status">{{ d.status }}</span>
+              </a>
+              <button type="button" class="btn-unlink" (click)="unlinkDevice(d)">Unlink</button>
+            </li>
+          }
+        </ul>
+      }
+    </section>
+  }
+
+  <!-- Link device dialog -->
+  @if (showLinkDialog) {
+    <div class="dialog-overlay" (click)="closeLinkDialog()">
+      <div class="dialog" (click)="$event.stopPropagation()">
+        <div class="dialog-header">
+          <h3>Link device</h3>
+          <button type="button" class="dialog-close" (click)="closeLinkDialog()">×</button>
+        </div>
+        <div class="dialog-body">
+          <div class="tabs">
+            <button
+              type="button"
+              class="tab"
+              [class.active]="linkMode === 'existing'"
+              (click)="linkMode = 'existing'; linkDialogError = ''"
+            >
+              Link existing device
+            </button>
+            <button
+              type="button"
+              class="tab"
+              [class.active]="linkMode === 'claim'"
+              (click)="linkMode = 'claim'; linkDialogError = ''"
+            >
+              Claim new device
+            </button>
+          </div>
+
+          @if (linkDialogError) {
+            <p class="dialog-error">{{ linkDialogError }}</p>
+          }
+
+          @if (linkMode === 'existing') {
+            <div class="form-row">
+              <label>Device</label>
+              <select [(ngModel)]="selectedDeviceId" name="device">
+                <option value="">-- Select a device --</option>
+                @for (d of availableToLink; track d.id) {
+                  <option [value]="d.id">{{ d.mac_address }} ({{ d.type }})</option>
+                }
+              </select>
+            </div>
+            @if (availableToLink.length === 0) {
+              <p class="hint">You have no other devices to link. Use "Claim new device" to add one.</p>
+            }
+          } @else {
+            <div class="form-row">
+              <label>Device ID (UUID)</label>
+              <input type="text" [(ngModel)]="claimDeviceId" name="claimDeviceId" placeholder="Device UUID" />
+            </div>
+            <div class="form-row">
+              <label>Activation secret</label>
+              <input type="text" [(ngModel)]="claimActivationSecret" name="claimActivationSecret" placeholder="Secret from device" />
+            </div>
+          }
+        </div>
+        <div class="dialog-actions">
+          <button type="button" class="btn secondary" (click)="closeLinkDialog()">Cancel</button>
+          <button type="button" class="btn primary" (click)="submitLink()" [disabled]="linkSubmitting">
+            {{ linkSubmitting ? 'Please wait...' : 'Link' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+</div>

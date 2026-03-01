@@ -10,13 +10,15 @@ export interface Device {
   type: DeviceType;
   status: DeviceStatus;
   owner_id?: string | null;
+  pet_id?: string | null;
   activation_secret?: string;
 }
 
-/** Request body for POST /device/claim */
+/** Request body for POST /device/claim. Optional pet_id to link after claiming. */
 export interface ClaimDeviceDto {
   device_id: string;
   activation_secret: string;
+  pet_id?: string;
 }
 
 /** Request body for POST /device/register */
@@ -33,4 +35,5 @@ export interface UpdateDeviceDto {
   type?: DeviceType;
   status?: DeviceStatus;
   owner_id?: string | null;
+  pet_id?: string | null;
 }
