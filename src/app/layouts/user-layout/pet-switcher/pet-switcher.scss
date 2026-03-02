@@ -1,0 +1,252 @@
+.pet-switcher {
+  position: relative;
+}
+
+.switcher-trigger {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 0.5rem;
+  color: #e2e8f0;
+  font-size: 0.9375rem;
+  cursor: pointer;
+  min-width: 140px;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.12);
+  }
+
+  &.open {
+    border-color: rgba(59, 130, 246, 0.5);
+    background: rgba(59, 130, 246, 0.15);
+  }
+
+  .avatar {
+    font-size: 1.25rem;
+  }
+
+  .name {
+    flex: 1;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .chevron {
+    font-size: 0.625rem;
+    opacity: 0.8;
+    transition: transform 0.2s;
+  }
+
+  &.open .chevron {
+    transform: rotate(180deg);
+  }
+}
+
+.dropdown {
+  position: absolute;
+  top: calc(100% + 0.25rem);
+  right: 0;
+  min-width: 200px;
+  background: #1e293b;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  z-index: 100;
+  padding: 0.25rem;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: none;
+  border-radius: 0.375rem;
+  background: transparent;
+  color: #e2e8f0;
+  font-size: 0.9375rem;
+  text-align: left;
+  cursor: pointer;
+  text-decoration: none;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  &.active {
+    background: rgba(59, 130, 246, 0.2);
+    color: #93c5fd;
+  }
+
+  .item-avatar,
+  .item-icon {
+    font-size: 1rem;
+  }
+
+  .item-name {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &.add-new {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    margin-top: 0.25rem;
+    padding-top: 0.5rem;
+    color: #93c5fd;
+  }
+}
+
+.dialog-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1100;
+  padding: 1.25rem;
+}
+
+.dialog {
+  width: 100%;
+  max-width: 420px;
+  background: #0f172a;
+  border-radius: 0.75rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(148, 163, 184, 0.4);
+}
+
+.dialog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.9rem 1.1rem;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.35);
+
+  h3 {
+    margin: 0;
+    font-size: 0.98rem;
+    font-weight: 600;
+    color: #e5e7eb;
+  }
+}
+
+.dialog-close {
+  background: none;
+  border: none;
+  color: #9ca3af;
+  font-size: 1.25rem;
+  cursor: pointer;
+
+  &:hover {
+    color: #e5e7eb;
+  }
+}
+
+.dialog-body {
+  padding: 0.9rem 1.1rem 0.5rem;
+}
+
+.dialog-error {
+  color: #fecaca;
+  background: rgba(127, 29, 29, 0.5);
+  border: 1px solid rgba(248, 113, 113, 0.7);
+  border-radius: 0.5rem;
+  padding: 0.4rem 0.6rem;
+  font-size: 0.8rem;
+  margin-bottom: 0.6rem;
+}
+
+.form-row {
+  margin-bottom: 0.6rem;
+
+  label {
+    display: block;
+    font-size: 0.78rem;
+    color: #9ca3af;
+    margin-bottom: 0.25rem;
+  }
+
+  input {
+    width: 100%;
+    padding: 0.35rem 0.5rem;
+    border-radius: 0.375rem;
+    border: 1px solid rgba(148, 163, 184, 0.6);
+    background: #020617;  
+    color: #e5e7eb;
+    font-size: 0.85rem;
+  }
+}
+
+.form-row-inline {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+
+  label {
+    display: block;
+    font-size: 0.78rem;
+    color: #9ca3af;
+    margin-bottom: 0.25rem;
+  }
+
+  input {
+    width: 100%;
+    padding: 0.35rem 0.5rem;
+    border-radius: 0.375rem;
+    border: 1px solid rgba(148, 163, 184, 0.6);
+    background: #020617;
+    color: #e5e7eb;
+    font-size: 0.85rem;
+  }
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  padding: 0.75rem 1.1rem 0.9rem;
+  border-top: 1px solid rgba(148, 163, 184, 0.3);
+}
+
+.btn.primary,
+.btn.secondary {
+  padding: 0.4rem 0.8rem;
+  border-radius: 0.5rem;
+  font-size: 0.82rem;
+  font-weight: 500;
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+
+.btn.primary {
+  background: #3b82f6;
+  border-color: #2563eb;
+  color: #f9fafb;
+
+  &:hover:not(:disabled) {
+    background: #2563eb;
+  }
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+}
+
+.btn.secondary {
+  background: transparent;
+  border-color: rgba(148, 163, 184, 0.8);
+  color: #e5e7eb;
+
+  &:hover {
+    background: rgba(15, 23, 42, 0.9);
+  }
+}

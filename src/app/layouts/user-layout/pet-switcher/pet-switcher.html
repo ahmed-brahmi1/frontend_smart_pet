@@ -1,0 +1,94 @@
+<div class="pet-switcher" (click)="$event.stopPropagation()">
+  <button
+    type="button"
+    class="switcher-trigger"
+    [class.open]="isOpen()"
+    (click)="toggle()"
+    [attr.aria-expanded]="isOpen()"
+    aria-haspopup="listbox"
+  >
+    <span class="avatar" aria-hidden="true">🐾</span>
+    <span class="name">{{ activePet ? activePet.name : 'Select pet' }}</span>
+    <span class="chevron">▼</span>
+  </button>
+
+  @if (isOpen()) {
+    <div class="dropdown" role="listbox">
+      @for (pet of ownedPets; track pet.id) {
+        <button
+          type="button"
+          class="dropdown-item"
+          [class.active]="activePet?.id === pet.id"
+          (click)="selectPet(pet)"
+        >
+          <span class="item-avatar">🐾</span>
+          <span class="item-name">{{ pet.name }}</span>
+        </button>
+      }
+      <button type="button" class="dropdown-item add-new" (click)="addNewPet()">
+        <span class="item-icon">➕</span>
+        <span>Add New Pet</span>
+      </button>
+    </div>
+  }
+
+  @if (showAddDialog()) {
+    <div class="dialog-overlay" (click)="closeAddPetDialog()">
+      <div class="dialog" (click)="$event.stopPropagation()">
+        <div class="dialog-header">
+          <h3>New pet</h3>
+          <button
+            type="button"
+            class="dialog-close"
+            (click)="closeAddPetDialog()"
+            aria-label="Close"
+          >
+            ×
+          </button>
+        </div>
+
+        <div class="dialog-body">
+          @if (addError()) {
+            <p class="dialog-error">{{ addError() }}</p>
+          }
+          <div class="form-row">
+            <label>Name</label>
+            <input type="text" [(ngModel)]="addForm.name" />
+          </div>
+          <div class="form-row">
+            <label>Species</label>
+            <input type="text" [(ngModel)]="addForm.species" />
+          </div>
+          <div class="form-row">
+            <label>Breed (optional)</label>
+            <input type="text" [(ngModel)]="addForm.breed" />
+          </div>
+          <div class="form-row-inline">
+            <div>
+              <label>Weight (kg)</label>
+              <input type="number" step="0.1" [(ngModel)]="addForm.weight" />
+            </div>
+            <div>
+              <label>Calorie goal</label>
+              <input type="number" [(ngModel)]="addForm.calorie_goal" />
+            </div>
+          </div>
+        </div>
+
+        <div class="dialog-actions">
+          <button type="button" class="btn secondary" (click)="closeAddPetDialog()">
+            Cancel
+          </button>
+          <button
+            type="button"
+            class="btn primary"
+            (click)="submitAddPet()"
+            [disabled]="addSubmitting()"
+          >
+            {{ addSubmitting() ? 'Saving…' : 'Save' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+</div>

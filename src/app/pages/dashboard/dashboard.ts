@@ -5,6 +5,8 @@ import {
   Inject,
   PLATFORM_ID,
   ChangeDetectorRef,
+  inject,
+  effect,
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { CommonModule } from '@angular/common';
@@ -15,6 +17,7 @@ import { Chart, registerables } from 'chart.js';
 import { AuthService } from '../../core/services/auth.service';
 import { DeviceService } from '../../core/services/device.service';
 import { DeviceDataService, DeviceDatum } from '../../core/services/device-data.service';
+import { ActivePetService } from '../../core/services/active-pet.service';
 import { PetService } from '../../core/services/pet.service';
 import type { Device } from '../../core/models/device';
 import type { Pet } from '../../core/models/pet';
@@ -29,6 +32,8 @@ Chart.register(...registerables);
   styleUrl: './dashboard.scss',
 })
 export class Dashboard implements OnInit, OnDestroy {
+  readonly activePetService = inject(ActivePetService);
+
   devices: Device[] = [];
   deviceData: DeviceDatum[] = [];
   pets: Pet[] = [];
@@ -57,29 +62,49 @@ export class Dashboard implements OnInit, OnDestroy {
     private cdr: ChangeDetectorRef
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
+    effect(() => {
+      this.activePetService.activePetId();
+      this.loadData();
+    });
   }
 
-  ngOnInit(): void {
-    this.loadData();
-  }
+  ngOnInit(): void {}
 
   loadData(): void {
     if (!this.authService.isAuthenticated()) {
       this.loading = false;
       return;
     }
+    const petId = this.activePetService.activePetId();
+    if (!petId) {
+      this.devices = [];
+      this.deviceData = [];
+      this.pets = [];
+      this.latestBattery = null;
+      this.latestFoodLevel = null;
+      this.destroyAllCharts();
+      this.loading = false;
+      this.cdr.detectChanges();
+      return;
+    }
+
     this.loading = true;
     this.errorMessage = '';
 
+    const deviceIds$ = this.petService.findDevicesByPetId(petId).pipe(
+      catchError(() => of<Device[]>([]))
+    );
     forkJoin({
-      devices: this.deviceService.findAll().pipe(catchError(() => of<Device[]>([]))),
+      devices: deviceIds$,
       deviceData: this.deviceDataService.findAll().pipe(catchError(() => of<DeviceDatum[]>([]))),
       pets: this.petService.findAll().pipe(catchError(() => of<Pet[]>([]))),
     }).subscribe({
       next: ({ devices, deviceData, pets }) => {
         this.devices = devices;
         this.pets = pets;
-        this.deviceData = this.sortByTimestampDesc(deviceData);
+        const deviceIdSet = new Set(devices.map((d) => d.id));
+        const filtered = deviceData.filter((d) => deviceIdSet.has(d.device_id));
+        this.deviceData = this.sortByTimestampDesc(filtered);
         this.latestBattery = this.getLatestBattery(this.deviceData);
         this.latestFoodLevel = this.getLatestFoodLevel(this.deviceData);
         if (this.isBrowser) {

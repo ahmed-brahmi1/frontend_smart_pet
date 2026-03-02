@@ -1,0 +1,130 @@
+<main class="health-page">
+  <h1>Health Monitoring</h1>
+  <p class="subtitle">Temperature and activity for your active pet</p>
+
+  @if (!activePetService.activePet(); as pet) {
+    <p class="hint">Select a pet in the header to see health data.</p>
+  } @else {
+    @if (errorMessage()) {
+      <p class="error">{{ errorMessage() }}</p>
+    }
+
+    @if (loading()) {
+      <p class="loading">Loading...</p>
+    } @else {
+      @if (collarDevice()) {
+        <div class="linked-device-bar">
+          <span class="device-label">Collar</span>
+          <span class="device-mac">{{ collarDevice()!.mac_address }}</span>
+          <button
+            type="button"
+            class="btn-unlink"
+            (click)="unlinkCollar(collarDevice()!)"
+            [disabled]="unlinking()"
+            title="Unlink collar from pet"
+            aria-label="Unlink collar from pet"
+          >
+            <span class="unlink-icon" aria-hidden="true">⊗</span>
+            <span class="unlink-text">Unlink</span>
+          </button>
+        </div>
+      }
+
+      <div class="cards">
+        <div class="card temp-card" [class]="'temp-' + temperatureStatus()">
+          <h3>Average Temperature</h3>
+          <p class="value">
+            {{ averageTemperature() != null ? (averageTemperature() | number:'1.1-1') + ' °C' : '--' }}
+          </p>
+          <span class="badge" [class]="'badge-' + temperatureStatus()">
+            {{ temperatureStatus() === 'normal' ? 'Normal' : temperatureStatus() === 'low' ? 'Low' : 'High' }}
+          </span>
+        </div>
+        <div class="card steps-card">
+          <h3>Average Daily Steps</h3>
+          <p class="value">{{ averageDailySteps() != null ? averageDailySteps() : '--' }}</p>
+        </div>
+      </div>
+
+      <div class="chart-section" *ngIf="last10Temperatures().length > 0">
+        <h2>Latest temperature readings</h2>
+        <div class="chart-container">
+          <canvas id="healthTempChart"></canvas>
+        </div>
+      </div>
+
+      @if (!collarDevice() && !loading()) {
+        <div class="link-device-block">
+          <p class="hint">Link a Smart Collar to this pet to see health data.</p>
+          <button type="button" class="btn primary" (click)="openLinkCollarDialog()">
+            Link Collar
+          </button>
+        </div>
+      }
+    }
+  }
+
+  <!-- Link Collar dialog -->
+  @if (showLinkDialog) {
+    <div class="dialog-overlay" (click)="closeLinkDialog()">
+      <div class="dialog" (click)="$event.stopPropagation()">
+        <div class="dialog-header">
+          <h3>Link Collar</h3>
+          <button type="button" class="dialog-close" (click)="closeLinkDialog()">×</button>
+        </div>
+        <div class="dialog-body">
+          <div class="tabs">
+            <button
+              type="button"
+              class="tab"
+              [class.active]="linkMode === 'existing'"
+              (click)="linkMode = 'existing'; linkDialogError = ''"
+            >
+              Link existing collar
+            </button>
+            <button
+              type="button"
+              class="tab"
+              [class.active]="linkMode === 'claim'"
+              (click)="linkMode = 'claim'; linkDialogError = ''"
+            >
+              Claim new device
+            </button>
+          </div>
+          @if (linkDialogError) {
+            <p class="dialog-error">{{ linkDialogError }}</p>
+          }
+          @if (linkMode === 'existing') {
+            <div class="form-row">
+              <label>Collar device</label>
+              <select [(ngModel)]="selectedDeviceId" name="device">
+                <option value="">-- Select a collar --</option>
+                @for (d of availableCollarsToLink(); track d.id) {
+                  <option [value]="d.id">{{ d.mac_address }}</option>
+                }
+              </select>
+            </div>
+            @if (availableCollarsToLink().length === 0) {
+              <p class="hint">You have no other collars to link. Use "Claim new device" to add one.</p>
+            }
+          } @else {
+            <div class="form-row">
+              <label>Device ID (UUID)</label>
+              <input type="text" [(ngModel)]="claimDeviceId" placeholder="Device UUID" />
+            </div>
+            <div class="form-row">
+              <label>Activation secret</label>
+              <input type="text" [(ngModel)]="claimActivationSecret" placeholder="Secret from device" />
+            </div>
+          }
+        </div>
+        <div class="dialog-actions">
+          <button type="button" class="btn secondary" (click)="closeLinkDialog()">Cancel</button>
+          <button type="button" class="btn primary" (click)="submitLinkCollar()" [disabled]="linkSubmitting">
+            {{ linkSubmitting ? 'Please wait...' : 'Link' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+</main>

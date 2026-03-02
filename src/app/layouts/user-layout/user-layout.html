@@ -1,6 +1,11 @@
 <div class="user-layout">
   <app-user-sidebar></app-user-sidebar>
-  <main class="user-content">
-    <router-outlet></router-outlet>
-  </main>
+  <div class="user-main-wrap">
+    <header class="user-header">
+      <app-pet-switcher></app-pet-switcher>
+    </header>
+    <main class="user-content">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
 </div>

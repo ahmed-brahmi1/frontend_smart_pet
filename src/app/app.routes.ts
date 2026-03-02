@@ -4,10 +4,11 @@ import { Register } from './pages/auth/register/register';
 import { UserLayout } from './layouts/user-layout/user-layout';
 import { Dashboard } from './pages/dashboard/dashboard';
 import { DeviceDetail } from './pages/devices/device-detail/device-detail';
-import { Feeding } from './pages/feeding/feeding';
 import { About } from './pages/about/about';
 import { Pets } from './pages/pets/pets';
 import { PetMonitor } from './pages/pet-monitor/pet-monitor';
+import { HealthMonitoring } from './pages/health-monitoring/health-monitoring';
+import { FoodMonitoring } from './pages/food-monitoring/food-monitoring';
 import { Devices } from './pages/devices/index/devices';
 import { authGuard } from './core/guards/auth.guard';
 import { roleGuard } from './core/guards/role.guard';
@@ -34,11 +35,12 @@ export const routes: Routes = [
             component: Dashboard,
             canActivate: [dashboardRedirectGuard],
           },
+          { path: 'health', component: HealthMonitoring },
+          { path: 'food', component: FoodMonitoring },
           { path: 'pets', component: Pets },
           { path: 'pet/:id', component: PetMonitor },
           { path: 'devices', component: Devices },
           { path: 'device/:id', component: DeviceDetail },
-          { path: 'feeding', component: Feeding },
           { path: 'about', component: About },
           {
             path: 'admin',

@@ -11,6 +11,8 @@ export interface DeviceDatum {
   gps_lat?: number | null;
   gps_lng?: number | null;
   temperature?: number | null;
+  /** Daily or cumulative steps (collar); optional until backend supports it */
+  steps?: number | null;
   food_level_grams?: number | null;
   water_level?: number | null;
   timestamp: string;

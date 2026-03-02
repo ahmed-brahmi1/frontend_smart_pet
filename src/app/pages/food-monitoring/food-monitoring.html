@@ -1,0 +1,210 @@
+<main class="food-page">
+  <h1>Food Monitoring</h1>
+  <p class="subtitle">Water and food levels, refill actions, and automatic feeding schedule</p>
+
+  @if (!activePetService.activePet()) {
+    <p class="hint">Select a pet in the header to see food data.</p>
+  } @else {
+    @if (errorMessage()) {
+      <p class="error">{{ errorMessage() }}</p>
+    }
+    @if (refillMessage()) {
+      <p class="refill-toast">{{ refillMessage() }}</p>
+    }
+
+    @if (loading()) {
+      <p class="loading">Loading...</p>
+    } @else {
+      @if (!feederDevice()) {
+        <div class="link-device-block">
+          <p class="hint">Link a Smart Feeder to this pet to see food levels and schedules.</p>
+          <button type="button" class="btn primary" (click)="openLinkFeederDialog()">
+            Link Feeder
+          </button>
+        </div>
+      } @else {
+        <!-- Linked feeder with unlink -->
+        <div class="linked-device-bar">
+          <span class="device-label">Feeder</span>
+          <span class="device-mac">{{ feederDevice()?.mac_address }}</span>
+          <button
+            type="button"
+            class="btn-unlink"
+            (click)="unlinkFeeder()"
+            [disabled]="unlinking()"
+            title="Unlink feeder from pet"
+            aria-label="Unlink feeder from pet"
+          >
+            <span class="unlink-icon" aria-hidden="true">⊗</span>
+            <span class="unlink-text">Unlink</span>
+          </button>
+        </div>
+
+        <!-- Level cards with progress bars -->
+        <div class="levels-section">
+          <div class="level-card">
+            <h3>Water Level</h3>
+            <div class="progress-wrap">
+              <div
+                class="progress-bar"
+                [style.width.%]="waterLevel() ?? 0"
+                [class.empty]="waterLevel() != null && waterLevel()! < 20"
+              ></div>
+            </div>
+            <p class="value">{{ waterLevel() != null ? waterLevel() + '%' : '--' }}</p>
+          </div>
+          <div class="level-card">
+            <h3>Food Level</h3>
+            <div class="progress-wrap">
+              <div
+                class="progress-bar food"
+                [style.width.%]="foodLevelPercent() ?? 0"
+                [class.empty]="foodLevelPercent() != null && foodLevelPercent()! < 20"
+              ></div>
+            </div>
+            <p class="value">{{ foodLevelGrams() != null ? foodLevelGrams() + ' g' : '--' }}</p>
+          </div>
+        </div>
+
+        <!-- Refill actions -->
+        <div class="actions-section">
+          <h2>Manual refill</h2>
+          <div class="action-buttons">
+            <button type="button" class="btn refill-water" (click)="refillWater()">
+              Refill Water
+            </button>
+            <button type="button" class="btn refill-food" (click)="refillFood()">
+              Refill Food
+            </button>
+          </div>
+        </div>
+
+        <!-- Automatic Food Refill schedule -->
+        <div class="scheduler-section">
+          <div class="scheduler-header">
+            <h2>Automatic Food Refill schedule</h2>
+            <button type="button" class="btn primary" (click)="openAddSchedule()">
+              + Add schedule
+            </button>
+          </div>
+
+          @if (showScheduleForm) {
+            <div class="form-card">
+              <h4>{{ editingSchedule ? 'Edit schedule' : 'New schedule' }}</h4>
+              @if (scheduleSubmitError) {
+                <p class="form-error">{{ scheduleSubmitError }}</p>
+              }
+              <div class="form-row">
+                <label>Time</label>
+                <input type="time" [(ngModel)]="scheduleTime" />
+              </div>
+              <div class="form-row">
+                <label>Amount (g, optional)</label>
+                <input
+                  type="number"
+                  min="0"
+                  step="1"
+                  [(ngModel)]="schedulePortion"
+                  placeholder="Optional"
+                />
+              </div>
+              <div class="form-row checkbox">
+                <label>
+                  <input type="checkbox" [(ngModel)]="scheduleEnabled" />
+                  Enabled
+                </label>
+              </div>
+              <div class="form-actions">
+                <button type="button" class="btn secondary" (click)="cancelScheduleForm()">
+                  Cancel
+                </button>
+                <button type="button" class="btn primary" (click)="submitSchedule()">Save</button>
+              </div>
+            </div>
+          }
+
+          <ul class="schedule-list" *ngIf="schedules().length > 0">
+            <li *ngFor="let s of schedules()" class="schedule-item">
+              <span class="time">{{ formatTime(s.time_of_day) }}</span>
+              <span class="portion" *ngIf="s.portion_grams != null">{{ s.portion_grams }} g</span>
+              <span class="enabled" [class.off]="!s.enabled">{{ s.enabled ? 'On' : 'Off' }}</span>
+              <div class="actions">
+                <button type="button" class="btn small" (click)="openEditSchedule(s)">Edit</button>
+                <button type="button" class="btn small danger" (click)="deleteSchedule(s)">
+                  Delete
+                </button>
+              </div>
+            </li>
+          </ul>
+          @if (schedules().length === 0 && !showScheduleForm) {
+            <p class="empty">No feeding schedules. Add one to get started.</p>
+          }
+        </div>
+      }
+    }
+  }
+
+  <!-- Link Feeder dialog -->
+  @if (showLinkDialog) {
+    <div class="dialog-overlay" (click)="closeLinkDialog()">
+      <div class="dialog" (click)="$event.stopPropagation()">
+        <div class="dialog-header">
+          <h3>Link Feeder</h3>
+          <button type="button" class="dialog-close" (click)="closeLinkDialog()">×</button>
+        </div>
+        <div class="dialog-body">
+          <div class="tabs">
+            <button
+              type="button"
+              class="tab"
+              [class.active]="linkMode === 'existing'"
+              (click)="linkMode = 'existing'; linkDialogError = ''"
+            >
+              Link existing feeder
+            </button>
+            <button
+              type="button"
+              class="tab"
+              [class.active]="linkMode === 'claim'"
+              (click)="linkMode = 'claim'; linkDialogError = ''"
+            >
+              Claim new device
+            </button>
+          </div>
+          @if (linkDialogError) {
+            <p class="dialog-error">{{ linkDialogError }}</p>
+          }
+          @if (linkMode === 'existing') {
+            <div class="form-row">
+              <label>Feeder device</label>
+              <select [(ngModel)]="selectedDeviceId" name="device">
+                <option value="">-- Select a feeder --</option>
+                @for (d of availableFeedersToLink(); track d.id) {
+                  <option [value]="d.id">{{ d.mac_address }}</option>
+                }
+              </select>
+            </div>
+            @if (availableFeedersToLink().length === 0) {
+              <p class="hint">You have no other feeders to link. Use "Claim new device" to add one.</p>
+            }
+          } @else {
+            <div class="form-row">
+              <label>Device ID (UUID)</label>
+              <input type="text" [(ngModel)]="claimDeviceId" placeholder="Device UUID" />
+            </div>
+            <div class="form-row">
+              <label>Activation secret</label>
+              <input type="text" [(ngModel)]="claimActivationSecret" placeholder="Secret from device" />
+            </div>
+          }
+        </div>
+        <div class="dialog-actions">
+          <button type="button" class="btn secondary" (click)="closeLinkDialog()">Cancel</button>
+          <button type="button" class="btn primary" (click)="submitLinkFeeder()" [disabled]="linkSubmitting">
+            {{ linkSubmitting ? 'Please wait...' : 'Link' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+</main>

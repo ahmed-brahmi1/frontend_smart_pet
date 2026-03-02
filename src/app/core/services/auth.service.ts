@@ -11,6 +11,7 @@ import type {
   CurrentUserValue,
   AuthUser,
 } from '../models/auth';
+import { ACTIVE_PET_ID_KEY } from './active-pet.service';
 
 const CURRENT_USER_KEY = 'currentUser';
 
@@ -106,6 +107,7 @@ export class AuthService {
     this.currentUserSubject.next(null);
     if (typeof localStorage !== 'undefined') {
       localStorage.removeItem(CURRENT_USER_KEY);
+      localStorage.removeItem(ACTIVE_PET_ID_KEY);
     }
     this.router.navigate(['/']);
   }
