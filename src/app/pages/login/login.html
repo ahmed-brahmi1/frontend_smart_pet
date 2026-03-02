@@ -1,34 +1,49 @@
-<div class="login-container">
-  <div class="login-card">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Great+Vibes&display=swap" rel="stylesheet">
 
-    <div class="logo">🐾</div>
+<div class="login-page">
+  <div class="background-image-container">
+    <img src="/cat.png" alt="Background Cat" class="bg-cat">
+    <div class="bg-overlay"></div>
+  </div>
 
-    <h2>Smart Pet</h2>
-    <p class="subtitle">
-      Login to monitor your pet's health and activity
-    </p>
+  <div class="login-container">
+    <div class="login-card">
+      <div class="logo-box">
+        <span class="logo-icon">🐾</span>
+      </div>
 
-    <form (ngSubmit)="onLogin()">
-      <input
-        type="email"
-        placeholder="Email"
-        [(ngModel)]="email"
-        name="email"
-        required
-      />
+      <h2 class="playfair">Smart <span class="gold-text">Pet</span></h2>
+      <p class="subtitle">
+        Login to monitor your pet's health and activity
+      </p>
 
-      <input
-        type="password"
-        placeholder="Password"
-        [(ngModel)]="password"
-        name="password"
-        required
-      />
+      <form (ngSubmit)="onLogin()">
+        <div class="input-group">
+          <input
+            type="email"
+            placeholder="Email"
+            [(ngModel)]="email"
+            name="email"
+            required
+          />
+        </div>
 
-      <button type="submit">
-        Login
-      </button>
-    </form>
+        <div class="input-group">
+          <input
+            type="password"
+            placeholder="Password"
+            [(ngModel)]="password"
+            name="password"
+            required
+          />
+        </div>
 
+        <button type="submit" class="login-btn">
+          Login
+        </button>
+      </form>
+      
+      <p class="footer-link">Don't have an account? <a href="#">Sign up</a></p>
+    </div>
   </div>
 </div>

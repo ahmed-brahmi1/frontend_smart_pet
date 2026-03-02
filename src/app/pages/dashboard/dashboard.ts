@@ -171,7 +171,7 @@ export class Dashboard implements OnInit {
           data: [value, config.maxValue - value],
           backgroundColor: [
             config.backgroundColor,
-            'rgba(200,200,200,0.1)'
+            'rgba(255, 252, 252, 0.1)'
           ],
           borderColor: [
             config.color,
@@ -194,7 +194,7 @@ export class Dashboard implements OnInit {
           display: false 
         },
         tooltip: {
-          backgroundColor: 'rgba(0,0,0,0.8)',
+          backgroundColor: 'rgba(254, 250, 250, 0)',
           titleColor: '#fff',
           bodyColor: '#ddd',
           callbacks: {
@@ -221,8 +221,10 @@ export class Dashboard implements OnInit {
           title: {
             display: true,
             text: config.unit,
-            color: '#666'
-          }
+            color: '#fefbfb'
+          },
+          ticks: {
+        color: '#ffffff', }
         }
       }
     };
@@ -237,6 +239,7 @@ export class Dashboard implements OnInit {
               display: false
             },
             ticks: {
+              color: '#ffffff',
               maxRotation: 0,
               autoSkip: true
             }
@@ -252,6 +255,7 @@ export class Dashboard implements OnInit {
               display: false
             },
             ticks: {
+              
               callback: (value: any, index: number) => {
                 return index === 0 ? config.label : '';
               }

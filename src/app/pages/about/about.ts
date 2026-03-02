@@ -38,4 +38,18 @@ export class About {
       this.router.navigate(['/register']);
     }, 2000);
   }
+
+  toggleVideo(video: HTMLVideoElement) {
+  if (video.paused) {
+    video.play();
+    // Optionnel : masquer le bouton play quand la vidéo tourne
+    video.parentElement?.querySelector('.video-overlay')?.classList.add('hidden');
+  } else {
+    video.pause();
+    video.parentElement?.querySelector('.video-overlay')?.classList.remove('hidden');
+  }
 }
+}
+
+
+

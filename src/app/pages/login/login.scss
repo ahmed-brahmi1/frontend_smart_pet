@@ -1,49 +1,142 @@
-.login-container {
+.login-page {
+  position: relative;
   height: 100vh;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(to right, #dfe9f3, #ffffff);
+  overflow: hidden;
 }
 
+/* GESTION DE L'IMAGE DE FOND */
+.background-image-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+
+  .bg-cat {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .bg-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* On assombrit l'image avec un dégradé profond */
+background: radial-gradient(circle, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.5) 100%);  }
+}
+
+/* LA CARTE DE CONNEXION (GLASSMORPHISM) */
 .login-card {
-  background: white;
-  padding: 40px;
-  width: 350px;
-  border-radius: 12px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(241, 211, 136, 0.2); /* Bordure dorée fine */
+  border-radius: 30px;
+  padding: 50px 40px;
+  margin-right: 800px;
+  margin-bottom: 200px;
+  width: 400px;
   text-align: center;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+  animation: fadeInDown 0.8s ease;
 }
 
-.logo {
-  font-size: 40px;
+.logo-icon {
+  font-size: 50px;
+  display: inline-block;
   margin-bottom: 10px;
+  filter: drop-shadow(0 0 10px rgba(201, 162, 39, 0.5));
+}
+
+h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 36px;
+  color: white;
+  margin-bottom: 10px;
+
+  .gold-text {
+    font-family: 'Great Vibes', cursive;
+    background: linear-gradient(to bottom, #f1d388, #c9a227, #8a6e2f);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 1.2em;
+  }
 }
 
 .subtitle {
-  color: gray;
+  color: #ccc;
   font-size: 14px;
+  margin-bottom: 35px;
+  font-weight: 300;
+}
+
+/* FORMULAIRE */
+.input-group {
   margin-bottom: 20px;
+
+  input {
+    width: 100%;
+    padding: 15px 20px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    color: white;
+    outline: none;
+    transition: all 0.3s;
+
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    &:focus {
+      border-color: #c9a227;
+      background: rgba(255, 255, 255, 0.12);
+      box-shadow: 0 0 15px rgba(201, 162, 39, 0.2);
+    }
+  }
 }
 
-input {
+.login-btn {
   width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-}
-
-button {
-  width: 100%;
-  padding: 10px;
-  background: #6c8ef5;
+  padding: 16px;
   border: none;
-  color: white;
-  border-radius: 6px;
+  border-radius: 15px;
+  background: linear-gradient(135deg, #f1d388, #8a6e2f);
+  color: black;
+  font-weight: 700;
+  font-size: 16px;
   cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
+  margin-top: 10px;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(138, 110, 47, 0.4);
+  }
 }
 
-button:hover {
-  background: #5a78e0;
+.footer-link {
+  margin-top: 25px;
+  color: #aaa;
+  font-size: 13px;
+
+  a {
+    color: #f1d388;
+    text-decoration: none;
+    font-weight: 600;
+    &:hover { text-decoration: underline; }
+  }
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
 }

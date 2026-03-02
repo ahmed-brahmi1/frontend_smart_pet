@@ -1,58 +1,68 @@
-<div class="page">
-
-  <div class="header">
-    <div>
-      <h1>Feeding Management</h1>
-      <p>Manage feeding schedules and track consumption</p>
-    </div>
-
-    <button class="add-btn">+ Add Schedule</button>
-  </div>
-
-  <!-- CARDS -->
-  <div class="cards">
-    <div class="card">
-      <h4>Today's Total</h4>
-      <p class="big">285g</p>
-      <span class="success">95% of target</span>
-    </div>
-
-    <div class="card">
-      <h4>Active Schedules</h4>
-      <p class="big">0</p>
-      <span>Feeding times</span>
-    </div>
-
-    <div class="card">
-      <h4>Weekly Average</h4>
-      <p class="big">282g</p>
-      <span class="info">↑ 5% from last week</span>
-    </div>
-
-    <div class="card">
-      <h4>Next Feeding</h4>
-      <p class="big">6:00 PM</p>
-      <span>In 2 hours</span>
-    </div>
-  </div>
-
-  <!-- MAIN CONTENT -->
-  <div class="content-grid">
-
-    <div class="box">
-      <h3>Feeding Schedules</h3>
-      <div class="empty">
-        No feeding schedules yet. Add one to get started!
-      </div>
-    </div>
-
-    <div class="box">
-      <h3>Daily Consumption This Week</h3>
-      <div class="chart-placeholder">
-        📊 Chart coming soon
-      </div>
-    </div>
-
-  </div>
-
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Great+Vibes&display=swap" rel="stylesheet">
+<div class="video-bg-container">
+  <video autoplay muted loop playsinline class="bg-video">
+    <source src="White.mp4" type="video/mp4">
+  </video>
+  <div class="video-overlay"></div>
 </div>
+
+<!-- Navbar ajoutée ici -->
+
+<header class="navbar">
+
+  <div class="logo"><span>Smart Pet</span></div>
+
+  <nav>
+
+    <a href="#">About</a>
+
+    <a href="#">Features</a>
+
+    <a href="#">FAQ</a>
+
+    <button class="btn-primary" (click)="onFill()" >Get Started</button>
+
+  </nav>
+
+</header>
+
+<main class="feeding-container">
+  <div class="header-section">
+    <h1 class="playfair">Feeding <span class="gold-text">Management</span></h1>
+    <button class="btn-refill" (click)="onFill()" [disabled]="loading">
+    <span class="refill-icon">✨</span> 
+    {{ loading ? 'Refilling...' : 'Refill Station' }}
+  </button>
+    <p class="subtitle">Monitor your smart station levels in real-time</p>
+  </div>
+
+  <div class="levels-grid" *ngIf="status">
+    <div class="glass-card">
+      <div class="card-header">
+        <span class="icon">💧</span>
+        <h3>Water Level</h3>
+      </div>
+      <div class="gauge-container">
+        <div class="gauge-fill water" [style.height.%]="status.waterLevel">
+          <div class="wave"></div>
+        </div>
+        <span class="percentage">{{ status.waterLevel }}%</span>
+      </div>
+    </div>
+
+    <div class="glass-card">
+      <div class="card-header">
+        <span class="icon">🦴</span>
+        <h3>Food Level</h3>
+      </div>
+      <div class="gauge-container">
+        <div class="gauge-fill food" [style.height.%]="status.foodLevel"></div>
+        <span class="percentage">{{ status.foodLevel }}%</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="loading" *ngIf="loading">
+    <p>Connecting to station...</p>
+  </div>
+</main>

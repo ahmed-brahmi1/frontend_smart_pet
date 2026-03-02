@@ -1,41 +1,69 @@
 
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Great+Vibes&display=swap" rel="stylesheet">
 
-  <!-- MAIN CONTENT -->
-  <main class="content">
-    <h1>Health Monitoring</h1>
-    <p class="subtitle">
-      Track your pet's vital signs and activity patterns
-    </p>
+<div class="video-bg-container">
+  <video autoplay muted loop playsinline class="bg-video">
+    <source src="/White.mp4" type="video/mp4">
+  </video>
+  <div class="video-overlay"></div>
+</div>
+<!-- Navbar ajoutée ici -->
+<header class="navbar">
+  <div class="logo"><span>Smart Pet</span></div>
+  <nav>
+    <a href="#">About</a>
+    <a href="#">Features</a>
+    <a href="#">FAQ</a>
+    <button class="btn-primary" >Get Started</button>
+  </nav>
+</header>
+<main class="content health-dashboard">
+  <div class="header-section">
+    <h1 class="playfair">Health <span class="gold-text">Monitoring</span></h1>
+    <p class="subtitle">Track your pet's vital signs and activity patterns in real-time</p>
+  </div>
 
-    <!-- STATS CARDS -->
-    <div class="cards">
-      <div class="card">
+
+  
+
+  <div class="cards-grid">
+    <div class="stat-card">
+      <div class="card-icon">🌡️</div>
+      <div class="card-info">
         <h3>Avg Temperature</h3>
-        <p>{{ sensor?.temperature ?? '--' }}°C</p>  <!-- ← Donnée dynamique -->
-      </div>
-
-      <div class="card">
-        <h3>Avg Heart Rate</h3>
-        <p>{{ sensor?.heartRate ?? '--' }} BPM</p>  <!-- ← Donnée dynamique -->
-      </div>
-
-      <div class="card">
-        <h3>Daily Steps</h3>
-        <p>{{ sensor?.steps ?? '--' }}</p>  <!-- ← Donnée dynamique -->
-      </div>
-
-      <div class="card">
-        <h3>Health Score</h3>
-        <p>{{ sensor?.healthScore ?? '--' }}/100</p>  <!-- ← Donnée dynamique -->
+        <p class="value gold-gradient-text">{{ sensor?.temperature ?? '--' }}°C</p>
       </div>
     </div>
 
- 
-<div class="charts-grid" *ngIf="sensor && isBrowser">
-    <!-- Graphique Température -->
-    <div class="chart-card">
+    <div class="stat-card">
+      <div class="card-icon">❤️</div>
+      <div class="card-info">
+        <h3>Avg Heart Rate</h3>
+        <p class="value gold-gradient-text">{{ sensor?.heartRate ?? '--' }} BPM</p>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="card-icon">🐾</div>
+      <div class="card-info">
+        <h3>Daily Steps</h3>
+        <p class="value gold-gradient-text">{{ sensor?.steps ?? '--' }}</p>
+      </div>
+    </div>
+
+    <div class="stat-card highlight">
+      <div class="card-icon">✨</div>
+      <div class="card-info">
+        <h3>Health Score</h3>
+        <p class="value gold-gradient-text">{{ sensor?.healthScore ?? '--' }}<span class="small">/100</span></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="charts-grid" *ngIf="sensor && isBrowser">
+    <div class="chart-card gold-border">
       <div class="chart-header">
-        <h3>Temperature</h3>
+        <h3><span class="gold-dot"></span> Temperature</h3>
         <span class="chart-value">{{ sensor.temperature }}°C</span>
       </div>
       <div class="chart-container">
@@ -43,10 +71,9 @@
       </div>
     </div>
 
-    <!-- Graphique Heart Rate -->
-    <div class="chart-card">
+    <div class="chart-card gold-border">
       <div class="chart-header">
-        <h3>Heart Rate</h3>
+        <h3><span class="gold-dot"></span> Heart Rate</h3>
         <span class="chart-value">{{ sensor.heartRate }} BPM</span>
       </div>
       <div class="chart-container">
@@ -54,10 +81,9 @@
       </div>
     </div>
 
-    <!-- Graphique Steps -->
-    <div class="chart-card">
+    <div class="chart-card gold-border">
       <div class="chart-header">
-        <h3>Steps</h3>
+        <h3><span class="gold-dot"></span> Activity Steps</h3>
         <span class="chart-value">{{ sensor.steps }}</span>
       </div>
       <div class="chart-container">
@@ -65,11 +91,10 @@
       </div>
     </div>
 
-    <!-- Graphique Health Score -->
-    <div class="chart-card">
+    <div class="chart-card gold-border">
       <div class="chart-header">
-        <h3>Health Score</h3>
-        <span class="chart-value">{{ sensor.healthScore }}</span>
+        <h3><span class="gold-dot"></span> Vitality Score</h3>
+        <span class="chart-value">{{ sensor.healthScore }}%</span>
       </div>
       <div class="chart-container">
         <canvas id="healthChart"></canvas>
@@ -77,10 +102,11 @@
     </div>
   </div>
 
-  <!-- Message de chargement -->
-  <div class="loading" *ngIf="!sensor">
-    Chargement des données...
+  <div class="loading-container" *ngIf="!sensor">
+    <div class="spinner"></div>
+    <p>Synchronizing with smart collar...</p>
   </div>
-  </main>
+</main>
 
-  <style></style>
+
+

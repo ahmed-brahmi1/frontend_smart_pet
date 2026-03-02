@@ -1,464 +1,210 @@
-.about-container {
-  padding: 40px;
-  background: #f4f7fb;
-  min-height: 100vh;
-  font-family: Arial, sans-serif;
-}
+* {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-/* HERO */
-.hero {
-  text-align: center;
-  margin-bottom: 50px;
-}
+    .hero-right h1 {
+font-family: 'Poppins', sans-serif;
+      color: white;
+     }
+     .container h2 {
+font-family: 'Poppins', sans-serif;
+      color: white;
+     }
 
-.hero h1 {
-  font-size: 36px;
-  color: #1f3b73;
-}
+    
 
-.hero p {
-  max-width: 600px;
-  margin: 20px auto;
-  color: #555;
-}
-
-.cta {
-  background: #2f5bd5;
-  color: white;
-  border: none;
-  padding: 12px 25px;
-  border-radius: 8px;
-  cursor: pointer;
-  margin-top: 15px;
-}
-
-/* VIDEO */
-.video-section {
-  padding: 80px 20px;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-}
-
-.container {
-  max-width: 1000px;
-  margin: 0 auto;
-}
-
-.video-title {
-  text-align: center;
-  font-size: 2.5rem;
-  font-weight: 600;
-  color: #2c3e50;
-  margin-bottom: 40px;
-  letter-spacing: -0.5px;
-  position: relative;
-}
-
-.video-title:after {
-  content: '';
-  display: block;
-  width: 60px;
-  height: 3px;
-  background: #3498db;
-  margin: 15px auto 0;
-  border-radius: 2px;
-}
-
-.video-wrapper {
-  position: relative;
-  width: 100%;
-  max-width: 900px;
-  margin: 0 auto;
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-  background: #000;
-  cursor: pointer;
-  transition: transform 0.3s ease;
-}
-
-.video-wrapper:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 30px 50px rgba(0,0,0,0.25);
-}
-
-.professional-video {
-  width: 100%;
+    /* VIDEO BACKGROUND */
+    .video-bg {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
   height: auto;
-  display: block;
-  background: #000;
+  z-index: -2;
+  transform: translateX(-50%) translateY(-50%); /* Centre parfaitement la vidéo */
+  object-fit: cover;
+  pointer-events: none; /* Empêche de cliquer sur la vidéo par erreur */
 }
 
-/* Custom video controls styling */
-.professional-video::-webkit-media-controls {
-  background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
-}
+    /* DARK OVERLAY */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.45); /* Un peu plus sombre pour faire ressortir l'or */
+      z-index: -1;
+    }
 
-.professional-video::-webkit-media-controls-panel {
-  padding: 10px;
-}
-
-/* Optional play button overlay */
-.video-overlay {
-  position: absolute;
+    /* NAVBAR */
+    .navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 80px; /* Réduit un peu le padding pour qu'elle ne prenne pas trop de place au scroll */
+  
+  /* --- FIXER LA NAVBAR EN HAUT --- */
+  position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0,0,0,0.3);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  pointer-events: none;
+  width: 100%;
+  z-index: 1000; /* Augmenté pour être sûr qu'elle passe au-dessus de tout le contenu */
+  
+  /* --- OPTIONNEL : EFFET DE FLOU --- */
+  background: rgba(0, 0, 0, 0.2); /* Un fond très léger pour la lisibilité */
+  backdrop-filter: blur(10px);    /* Un effet de flou élégant sur la vidéo en arrière-plan */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Une fine ligne discrète */
 }
 
-.video-wrapper:hover .video-overlay {
-  opacity: 1;
-}
-
-.custom-play-btn {
-  width: 70px;
-  height: 70px;
-  border-radius: 50%;
-  background: #3498db;
-  border: none;
+    .navbar .logo {
+  font-size: 32px; /* Un peu plus grand pour la lisibilité */
+  font-weight: 700;
   color: white;
   display: flex;
   align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  pointer-events: auto;
-  transition: all 0.3s ease;
-  box-shadow: 0 5px 15px rgba(52,152,219,0.4);
+  
 }
 
-.custom-play-btn:hover {
-  background: #2980b9;
-  transform: scale(1.1);
-}
-
-.custom-play-btn svg {
-  width: 35px;
-  height: 35px;
-  margin-left: 3px; /* Adjust for optical centering */
-}
-
-.video-caption {
-  text-align: center;
-  margin-top: 20px;
-  color: #34495e;
-  font-size: 1.1rem;
+.navbar .logo span {
+  /* --- APPLICATION DU STYLE SIGNATURE --- */
+  font-family: 'Great Vibes', cursive;
+  font-size: 1.4em; /* Le script doit être plus grand pour compenser sa finesse */
   font-weight: 400;
-  opacity: 0.8;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .video-section {
-    padding: 50px 15px;
-  }
+  margin-left: 8px; /* Espace entre Smart et Pet */
+  padding-left: 5px; /* Évite que le "P" ne soit coupé */
+  padding-right:5px;
   
-  .video-title {
-    font-size: 2rem;
-  }
+  /* Dégradé Doré identique au titre */
+  background: linear-gradient(to bottom, #f1d388 0%, #c9a227 50%, #8a6e2f 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   
-  .custom-play-btn {
-    width: 50px;
-    height: 50px;
-  }
+  /* Un léger décalage vers le bas pour l'équilibre visuel */
+  transform: translateY(2px); 
+  display: inline-block;
+}
+
+    .navbar nav {
+      display: flex;
+      align-items: center;
+      gap: 40px;
+    }
+
+    .navbar nav a {
+      text-decoration: none;
+      color: white;
+      font-weight: 300;
+      transition: 0.3s;
+    }
+
+    .navbar nav a:hover {
+      color: #c9a227;
+    }
+
+    /* HERO SECTION */
+    .hero {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 100px;
+      position: relative;
+      z-index: 5;
+    }
+
+    .hero-left {
+      flex: 1;
+    }
+
+    .hero-left .dog-img {
+  max-width: 550px;
+  filter: drop-shadow(0px 10px 40px rgba(0,0,0,0.8));
   
-  .custom-play-btn svg {
-    width: 25px;
-    height: 25px;
-  }
+  /* --- AJOUT POUR POUSSER VERS LA DROITE --- */
+  margin-left:100px; /* Ajuste cette valeur selon le besoin */
+  display: block;    /* Assure que la marge s'applique correctement */
 }
 
+    .hero-right {
+      flex: 1;
+    }
 
-/* FEATURES */
-.features {
-  display: flex;
-  gap: 20px;
-  justify-content: center;
-  margin-bottom: 50px;
-}
+    .hero-right h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 85px; /* Légèrement plus grand pour l'impact */
+      font-weight: 400; /* Plus élégant en 400 pour contraster avec la signature */
+      line-height: 0.9;
+      margin-bottom: 20px;
+    }
+    .hero-right p{
+      font-family: 'Playfair Display', serif;
+      font-size: 85px; /* Légèrement plus grand pour l'impact */
+      font-weight: 400; /* Plus élégant en 400 pour contraster avec la signature */
+      line-height: 0.9;
+      margin-bottom: 20px;
+      color: white;
+    
+    }
 
-.feature-card {
-  background: white;
-  padding: 25px;
-  border-radius: 12px;
-  width: 250px;
-  text-align: center;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-}
+    /* --- LE SECRET DU STYLE "SIGNATURE" --- */
+    .gold {
+      font-family: 'Great Vibes', cursive;
+  font-size: 1.2em;
+  font-weight: 400;
+  font-style: normal;
+  display: inline-block;
 
-/* FINAL CTA */
-.final-cta {
-  text-align: center;
-}
+  
+  /* --- CORRECTION DU "S" COUPÉ --- */
+  padding-top: 20px;  /* Donne de l'espace au "S" pour s'afficher */
+  margin-left: 10px;  /* Ramène le mot vers la gauche pour compenser le padding */
+  overflow: visible;   /* Force l'affichage des morceaux qui dépassent */
+  vertical-align: middle; /* Aligne mieux la signature avec le texte blanc */
 
-.cta-large {
-  background: #1f3b73;
-  color: white;
-  border: none;
-  padding: 15px 35px;
-  border-radius: 10px;
-  cursor: pointer;
-  font-size: 18px;
-}
-/* ================= PRICING ================= */
+  /* Dégradé Doré */
+  background: linear-gradient(to bottom, #f1d388 0%, #c9a227 50%, #8a6e2f 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  
+  filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
+    }
 
-.pricing {
-  padding: 80px 20px;
-  text-align: center;
-  background: linear-gradient(to right, #f4f7fb, #e9efff);
-}
+    .hero-right p {
+      margin: 30px 0;
+      font-size: 18px;
+      font-weight: 300;
+      color: #cccccc;
+      line-height: 1.6;
+    }
+    .gold span{
+      padding-top:100px;
+    }
 
-.pricing h2 {
-  font-size: 32px;
-  margin-bottom: 40px;
-  color: #1f3b73;
-}
+    /* GOLD BUTTON */
+    .btn-primary {
+      background: linear-gradient(135deg, #d4af37, #b8901f);
+      border: none;
+      padding: 16px 40px;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s ease;
+      color:white;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
 
-.pricing-container {
-  display: flex;
-  justify-content: center;
-  gap: 40px;
-  flex-wrap: wrap;
-}
-
-.price-card {
-  background: white;
-  width: 300px;
-  padding: 30px;
-  border-radius: 15px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-  transition: transform 0.3s ease;
-  position: relative;
-}
-
-.price-card:hover {
-  transform: translateY(-10px);
-}
-
-.price-card h3 {
-  margin-bottom: 10px;
-}
-
-.price {
-  font-size: 28px;
-  font-weight: bold;
-  margin: 20px 0;
-}
-
-.price span {
-  font-size: 16px;
-  color: gray;
-}
-
-.price-card ul {
-  list-style: none;
-  padding: 0;
-  margin-bottom: 20px;
-}
-
-.price-card ul li {
-  margin: 10px 0;
-  font-size: 14px;
-}
-
-.price-card button {
-  background: #2f5bd5;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-.price-card button:hover {
-  background: #1f3b73;
-}
-
-/* PRO PLAN HIGHLIGHT */
-
-.pro {
-  border: 2px solid #2f5bd5;
-}
-
-.badge {
-  position: absolute;
-  top: -10px;
-  right: 20px;
-  background: #2f5bd5;
-  color: white;
-  padding: 5px 10px;
-  border-radius: 20px;
-  font-size: 12px;
-}
-
-/* ================= TESTIMONIALS ================= */
-
-.testimonials {
-  padding: 80px 20px;
-  background: white;
-  text-align: center;
-}
-
-.testimonials h2 {
-  font-size: 30px;
-  margin-bottom: 40px;
-  color: #1f3b73;
-}
-
-.testimonial-card {
-  max-width: 600px;
-  margin: auto;
-  background: #f4f7fb;
-  padding: 30px;
-  border-radius: 15px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
-}
-
-.testimonial-card img {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  margin-bottom: 20px;
-}
-
-blockquote {
-  font-style: italic;
-  margin-bottom: 15px;
-  color: #444;
-}
-
-.author {
-  font-weight: bold;
-  color: #2f5bd5;
-}
-/* Animation de base pour tous les éléments */
-.hero, .video-section, .features, .pricing, .testimonials, .final-cta {
-  opacity: 0;
-  transform: translateY(30px);
-  animation: fadeUp 0.8s forwards;
-}
-
-/* Ajouter un délai progressif pour un effet cascade */
-.video-section {
-  animation-delay: 0.2s;
-}
-
-.features {
-  animation-delay: 0.4s;
-}
-
-.pricing {
-  animation-delay: 0.6s;
-}
-
-.testimonials {
-  animation-delay: 0.8s;
-}
-
-.final-cta {
-  animation-delay: 1s;
-}
-
-@keyframes fadeUp {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-/* ===== SMOOTH ENTRANCE ANIMATIONS ===== */
-
-.hero, .stats, .video-section, .why-us,
-.features, .pricing, .testimonials, .final-cta {
-  opacity: 0;
-  transform: translateY(50px);
-  animation: fadeUpSmooth 1s ease forwards;
-}
-
-.stats { animation-delay: 0.2s; }
-.video-section { animation-delay: 0.4s; }
-.why-us { animation-delay: 0.6s; }
-.features { animation-delay: 0.8s; }
-.pricing { animation-delay: 1s; }
-.testimonials { animation-delay: 1.2s; }
-.final-cta { animation-delay: 1.4s; }
-
-@keyframes fadeUpSmooth {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* ===== STATISTICS STYLE ===== */
-
-.stats {
-  text-align: center;
-  padding: 80px 20px;
-  background: white;
-}
-
-.stats-container {
-  display: flex;
-  justify-content: center;
-  gap: 40px;
-  margin-top: 40px;
-  flex-wrap: wrap;
-}
-
-.stat-card {
-  background: #f4f7fb;
-  padding: 30px;
-  border-radius: 15px;
-  width: 250px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.05);
-  transition: transform 0.3s ease;
-}
-
-.stat-card:hover {
-  transform: scale(1.05);
-}
-
-.stat-card h3 {
-  font-size: 36px;
-  color: #2f5bd5;
-}
-
-/* WHY US */
-
-.why-us {
-  padding: 80px 20px;
-  text-align: center;
-  background: linear-gradient(to right, #f4f7fb, #e9efff);
-}
-
-.why-container {
-  display: flex;
-  gap: 30px;
-  justify-content: center;
-  margin-top: 40px;
-  flex-wrap: wrap;
-}
-
-.why-card {
-  background: white;
-  padding: 30px;
-  border-radius: 15px;
-  width: 280px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-  transition: transform 0.3s ease;
-}
-
-.why-card:hover {
-  transform: translateY(-10px);
-}
-/* OVERLAY */
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 30px rgba(212, 175, 55, 0.4);
+    }
+   /* OVERLAY */
 .payment-overlay {
   position: fixed;
   top: 0;
@@ -475,60 +221,96 @@ blockquote {
 
 /* MODAL */
 .payment-modal {
-  background: white;
-  width: 400px;
-  padding: 30px;
-  border-radius: 20px;
-  box-shadow: 0 15px 40px rgba(0,0,0,0.2);
   position: relative;
+  width: 500px;
+  min-height: 650px;
+  border-radius: 30px;
+  overflow: hidden; /* Important pour que la vidéo respecte l'arrondi */
+  box-shadow: 0 25px 50px rgba(0,0,0,0.6);
+  border: 1px solid rgba(241, 211, 136, 0.2);
   animation: slideUp 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* LA VIDÉO DANS LA MODALE */
+.modal-video-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+/* L'OVERLAY POUR ÉCRIRE PAR DESSUS */
+.modal-dark-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.75); /* Ajuste l'opacité selon tes besoins */
+  backdrop-filter: blur(5px); /* Effet flou élégant */
+  z-index: 1;
+}
+
+/* CONTENEUR DU TEXTE ET DU FORMULAIRE */
+.modal-content-inner {
+  position: relative;
+  z-index: 2; /* Passe au dessus de la vidéo et de l'overlay */
+  padding: 40px;
+  color: white;
 }
 
 .payment-modal h2 {
-  margin-bottom: 20px;
+  font-family: 'Playfair Display', serif;
+  font-size: 32px;
   text-align: center;
+  margin-bottom: 25px;
+  background: linear-gradient(to bottom, #f1d388, #8a6e2f);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Champs de saisie élégants */
+.form-group input, .row input {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 12px;
+  border-radius: 10px;
+  width: 100%;
+  margin-bottom: 15px;
+  outline: none;
+
+  &::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  &:focus {
+    border-color: #c9a227;
+  }
 }
 
 .close-btn {
   position: absolute;
-  right: 15px;
-  top: 15px;
+  right: 20px;
+  top: 20px;
+  z-index: 3;
+  color: white;
   background: none;
   border: none;
-  font-size: 18px;
-  cursor: pointer;
-}
-
-.form-group {
-  margin-bottom: 15px;
-}
-
-.form-group input {
-  width: 100%;
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px solid #ddd;
-}
-
-.row {
-  display: flex;
-  gap: 10px;
-}
-
-.pay-btn {
-  width: 100%;
-  padding: 12px;
-  background: #2f5bd5;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  margin-top: 15px;
+  font-size: 20px;
   cursor: pointer;
   transition: 0.3s;
-}
 
-.pay-btn:hover {
-  background: #1e3fa8;
+  &:hover {
+    color: #c9a227;
+    transform: rotate(90deg);
+  }
 }
 
 /* Animations */
@@ -542,10 +324,12 @@ blockquote {
   to { transform: translateY(0); opacity: 1 }
 }
 .credit-card {
-  background: linear-gradient(135deg, #2f5bd5, #6a11cb);
+  background: linear-gradient(135deg, #c9a227, #0d0c0d);
   color: white;
   padding: 20px;
+  padding-right: 100px;
   border-radius: 15px;
+  margin-left:20px;
   margin-bottom: 15px;
   animation: fadeIn 0.4s ease;
 }
@@ -554,6 +338,7 @@ blockquote {
   font-size: 18px;
   letter-spacing: 2px;
   margin-bottom: 10px;
+  
 }
 
 .card-holder, .card-expiry {
@@ -607,12 +392,561 @@ blockquote {
   color: #2f5bd5;
 }
 
-/* FOOTER */
-.website-footer {
-  background: #f8f9fa;
+/* SECTION TITRE */
+.section-title {
   text-align: center;
-  padding: 20px;
-  margin-top: 60px;
-  font-size: 14px;
-  color: gray;
+  font-family: 'Playfair Display', serif;
+  font-size: 42px;
+  color: white;
+  margin: 60px 0 40px;
 }
+
+/* CONTAINER */
+.stats-container {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  padding: 0 100px;
+  margin-bottom: 80px;
+}
+
+/* CONTAINER DES STATS */
+.stats-container {
+  display: flex;
+  justify-content: center;
+  gap: 40px; /* Plus d'espace entre les cartes */
+  padding: 0 5%;
+  margin: 50px 0;
+}
+
+/* CARTE INDIVIDUELLE */
+.stat-card {
+  flex: 1;
+  height: 500px; /* On augmente la hauteur */
+  border-radius: 24px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end; /* Texte en bas */
+  padding: 50px; /* Plus de padding interne */
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* RENDRE LES IMAGES TRÈS SOMBRES */
+.card-1 {
+  /* On augmente l'opacité du noir (0.4 à 0.9) pour que l'image soit très sombre */
+  background: linear-gradient(to top, rgba(0,0,0,0.9) 20%, rgba(0,0,0,0.4) 100%), 
+              url('/dog1.png') no-repeat center center;
+  background-size: cover;
+}
+
+.card-2 {
+  background: linear-gradient(to top, rgba(0,0,0,0.9) 20%, rgba(0,0,0,0.4) 100%), 
+              url('/dog2.png') no-repeat center center;
+  background-size: cover;
+}
+
+/* TEXTE PLUS GRAND ET CLAIR */
+.card-content {
+  width: 100%;
+}
+
+.card-content h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 120px; /* Très grand pour l'impact visuel */
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 15px;
+  /* Ton dégradé doré signature */
+  background: linear-gradient(to bottom, #f1d388 0%, #c9a227 50%, #8a6e2f 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.5));
+}
+
+.card-content p {
+  color: white; /* Blanc pur pour un maximum de contraste */
+  font-size: 40px; /* Plus grand pour la lisibilité */
+  font-weight: 400;
+  line-height: 1.3;
+  max-width: 350px;
+  text-shadow: 1px 1px 10px rgba(0,0,0,0.8);
+}
+
+/* EFFET AU SURVOL */
+.stat-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+}
+
+
+.video-container {
+  padding: 100px 10%;
+  text-align: center;
+  background: transparent;
+}
+
+.video-header {
+  margin-bottom: 50px;
+}
+
+.video-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 48px;
+  color: white;
+  margin-bottom: 15px;
+}
+
+.video-subtitle {
+  color: #aaa;
+  font-size: 18px;
+  font-weight: 300;
+}
+
+/* LE CADRE ÉLÉGANT */
+.video-frame {
+  position: relative;
+  max-width: 1000px;
+  margin: 0 auto;
+  border-radius: 30px;
+  overflow: hidden;
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
+  border: 1px solid rgba(241, 211, 136, 0.3); /* Bordure dorée très fine */
+  cursor: pointer;
+}
+
+.professional-video {
+  width: 100%;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+/* OVERLAY ET BOUTON PLAY */
+.video-overlay {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background 0.3s ease;
+}
+
+.video-frame:hover .video-overlay {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.play-button-circle {
+  width: 90px;
+  height: 90px;
+  background: linear-gradient(135deg, #f1d388, #8a6e2f);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 0 30px rgba(201, 162, 39, 0.5);
+  transition: transform 0.3s ease;
+}
+
+.video-frame:hover .play-button-circle {
+  transform: scale(1.1);
+}
+
+.play-triangle {
+  width: 0;
+  height: 0;
+  border-top: 15px solid transparent;
+  border-bottom: 15px solid transparent;
+  border-left: 25px solid white;
+  margin-left: 5px;
+}
+
+
+.premium-features {
+  padding: 100px 10%;
+  position: relative;
+  z-index: 10;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  margin-top: 50px;
+}
+
+/* LA CARTE GLASSMORPHISM */
+.glass-card {
+  background: rgba(255, 255, 255, 0.03); /* Très léger voile blanc */
+  backdrop-filter: blur(15px); /* Effet de flou sur le fond */
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid rgba(241, 211, 136, 0.15); /* Bordure dorée très fine */
+  border-radius: 25px;
+  padding: 40px;
+  text-align: center;
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+
+  /* Petit éclat doré au survol */
+  &:hover {
+    transform: translateY(-10px);
+    background: rgba(255, 255, 255, 0.07);
+    border-color: rgba(241, 211, 136, 0.5);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+  }
+
+  .icon-box {
+    font-size: 45px;
+    margin-bottom: 20px;
+    filter: drop-shadow(0 0 10px rgba(241, 211, 136, 0.3));
+  }
+
+  h3 {
+    font-family: 'Playfair Display', serif;
+    color: white;
+    font-size: 24px;
+    margin-bottom: 15px;
+    font-weight: 600;
+  }
+
+  p {
+    color: #ccc;
+    font-size: 16px;
+    line-height: 1.6;
+    font-weight: 300;
+  }
+}
+
+/* Ligne décorative dorée sous chaque titre de carte */
+.glass-card h3::after {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 2px;
+  background: linear-gradient(to right, #f1d388, #8a6e2f);
+  margin: 12px auto 0;
+  border-radius: 2px;
+}
+
+
+.feature-row {
+  min-height: 600px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding: 80px 10%;
+  
+  /* --- AJOUTS DEMANDÉS --- */
+  margin: 0 40px 40px 40px; /* Ajoute de l'espace autour pour voir la vidéo derrière */
+  border-radius: 40px;      /* Arrondit les coins de la section image */
+  overflow: hidden;         /* Important pour que l'image respecte l'arrondi */
+  opacity: 0.85;            /* Légère transparence globale pour fusionner avec la vidéo */
+  /* ----------------------- */
+
+  border-bottom: 1px solid rgba(241, 211, 136, 0.1);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4); /* Donne de la profondeur */
+}
+
+.content-wrapper {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  z-index: 2;
+}
+
+.text-side {
+  flex: 0 0 50%;
+  padding: 40px;
+  background: rgba(0, 0, 0, 0.65); /* Un peu plus sombre pour compenser l'opacité de la ligne */
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  border-left: 4px solid #c9a227;
+}
+
+.text-side h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 40px;
+  margin-bottom: 20px;
+}
+
+.text-side p {
+  font-size: 20px;
+  color: #e0e0e0;
+  line-height: 1.6;
+}
+
+/* Inversion pour le rythme visuel */
+.reversed .content-wrapper {
+  flex-direction: row-reverse;
+}
+
+.reversed .text-side {
+  border-left: none;
+  border-right: 4px solid #c9a227;
+}
+
+/* GESTION DES BACKGROUNDS SOMBRES AVEC CHEMINS ASSETS */
+.row-huski1 {
+  background: linear-gradient(to right, rgba(0,0,0,0.9) 30%, rgba(0,0,0,0.2)), 
+              url('/huski1.png') no-repeat center center / cover;
+}
+
+.row-huski2 {
+  background: linear-gradient(to left, rgba(0,0,0,0.9) 30%, rgba(0,0,0,0.2)), 
+              url('/huski2.png') no-repeat center center / cover;
+}
+
+.row-golden {
+  background: linear-gradient(to right, rgba(0,0,0,0.9) 30%, rgba(0,0,0,0.2)), 
+              url('/golden.png') no-repeat center center / cover;
+}
+
+.row-berger {
+  background: linear-gradient(to left, rgba(0,0,0,0.9) 30%, rgba(0,0,0,0.2)), 
+              url('/berger.png') no-repeat center center / cover;
+}
+
+.row-dog1 {
+  background: linear-gradient(to right, rgba(0,0,0,0.9) 30%, rgba(0,0,0,0.2)), 
+              url('/dog1.png') no-repeat center center / cover;
+}
+
+
+
+.pricing {
+  padding: 100px 10%;
+  text-align: center;
+}
+
+.pricing-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  margin-top: 50px;
+}
+
+/* STYLE GÉNÉRAL DES CARTES */
+.price-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 30px;
+  padding: 50px 40px;
+  width: 350px;
+  transition: all 0.4s ease;
+  position: relative;
+  color: white;
+
+  h3 {
+    font-size: 28px;
+    font-family: 'Playfair Display', serif;
+    margin-bottom: 10px;
+  }
+
+  .price {
+    font-size: 48px;
+    font-weight: bold;
+    margin-bottom: 30px;
+    color: white;
+
+    .period {
+      font-size: 16px;
+      opacity: 0.6;
+    }
+  }
+}
+
+/* MISE EN AVANT DU PLAN PRO */
+.pro-plan {
+  border: 2px solid #c9a227; /* Bordure dorée plus marquée */
+  transform: scale(1.05); /* Légèrement plus grande */
+  background: rgba(201, 162, 39, 0.05); /* Teinte dorée très légère au fond */
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(201, 162, 39, 0.2);
+
+  .popular-badge {
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(to right, #f1d388, #8a6e2f);
+    color: black;
+    padding: 5px 20px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+}
+
+/* LISTE DES CARACTÉRISTIQUES */
+.features-list {
+  text-align: left;
+  margin-bottom: 40px;
+
+  ul {
+    list-style: none;
+    padding: 0;
+
+    li {
+      margin-bottom: 15px;
+      font-size: 16px;
+      color: #ccc;
+      display: flex;
+      align-items: center;
+
+      span {
+        color: #c9a227;
+        margin-right: 10px;
+        font-weight: bold;
+      }
+    }
+  }
+}
+
+/* BOUTONS */
+.price-btn {
+  width: 100%;
+  padding: 15px;
+  border-radius: 15px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+
+  &.primary {
+    background: linear-gradient(to right, #f1d388, #8a6e2f);
+    color: black;
+  }
+
+  &.secondary {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  &:hover {
+    transform: scale(1.05);
+    filter: brightness(1.2);
+  }
+}
+
+.price-card:hover {
+    border-color: rgba(201, 162, 39, 0.8);
+}
+
+
+.testimonials {
+  padding: 100px 10%;
+  text-align: center;
+  position: relative;
+}
+
+.testimonial-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+}
+
+.testimonial-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(241, 211, 136, 0.2);
+  border-radius: 40px;
+  padding: 60px;
+  max-width: 800px;
+  position: relative;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+    border-color: rgba(241, 211, 136, 0.5);
+  }
+}
+
+/* LA GROSSE GUILLEMET DORÉE */
+.quote-icon {
+  position: absolute;
+  top: 20px;
+  left: 40px;
+  font-family: 'Playfair Display', serif;
+  font-size: 120px;
+  line-height: 1;
+  background: linear-gradient(to bottom, #f1d388, #8a6e2f);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  opacity: 0.3;
+}
+
+.testimonial-content blockquote {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  font-style: italic;
+  line-height: 1.6;
+  color: white;
+  margin-bottom: 40px;
+  position: relative;
+  z-index: 1;
+}
+
+/* BOX AUTEUR */
+.author-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.author-image {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid #c9a227;
+  box-shadow: 0 0 15px rgba(201, 162, 39, 0.3);
+  
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.author-info {
+  text-align: left;
+}
+
+.author-name {
+  font-size: 20px;
+  font-weight: 600;
+  color: white;
+  margin-bottom: 4px;
+}
+
+.author-status {
+  font-size: 14px;
+  color: #c9a227;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* EFFET DE LUEUR DORÉE SUBTILE */
+.gold-glow {
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    border-radius: 40px;
+    box-shadow: inset 0 0 30px rgba(201, 162, 39, 0.05);
+    pointer-events: none;
+  }
+}
+
+
+
+

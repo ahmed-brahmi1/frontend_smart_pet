@@ -1,28 +1,38 @@
 <div class="layout">
-
-  <!-- SIDEBAR -->
   <aside class="sidebar">
-    <div class="logo">
-      🐾 <span>Smart Pet</span>
+    <div class="sidebar-header">
+      <div class="logo">
+        🐾 
+      </div>
     </div>
 
-    <nav>
-      <a routerLink="/s" routerLinkActive="active">Dashboard</a>
-      <a routerLink="/dashboard" routerLinkActive="active">Health Monitoring</a>
-      <a routerLink="/feeding" routerLinkActive="active">Feeding Management</a>
-      <a>Admin Panel</a>
-      <a routerLink="/about" routerLinkActive="active">About Us</a>
-
+    <nav class="nav-menu">
+      <a routerLink="/s" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+        <span class="icon">📊</span> Dashboard
+      </a>
+      <a routerLink="/dashboard" routerLinkActive="active">
+        <span class="icon">❤️</span> Health Monitoring
+      </a>
+      <a routerLink="/feeding" routerLinkActive="active">
+        <span class="icon">🍽️</span> Feeding Management
+      </a>
+      <a class="disabled">
+        <span class="icon">🔐</span> Admin Panel
+      </a>
+      <a routerLink="/about" routerLinkActive="active">
+        <span class="icon">ℹ️</span> About Us
+      </a>
     </nav>
 
-    <div class="logout">
-      Logout
+    <div class="sidebar-footer">
+      <div class="logout-btn">
+        <span class="icon">🚪</span> Logout
+      </div>
     </div>
   </aside>
 
-  <!-- PAGE CONTENT -->
   <main class="content">
+    <div class="content-overlay"></div>
     <router-outlet></router-outlet>
   </main>
-
 </div>
