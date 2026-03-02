@@ -1,1 +1,13 @@
-/* You can add global styles to this file, and also import other style files */
+/* Global styles – Tailwind can be added via @tailwindcss/postcss later */
+html,
+body {
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  color: #0f172a;
+  background: #f1f5f9;
+}

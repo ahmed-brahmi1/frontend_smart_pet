@@ -1,0 +1,9 @@
+<div class="sensor-card">
+  @if (icon()) {
+    <span class="icon" [class]="icon()"></span>
+  }
+  <div class="content">
+    <span class="label">{{ label() }}</span>
+    <span class="value">{{ displayValue }}{{ unit() ? ' ' + unit() : '' }}</span>
+  </div>
+</div>

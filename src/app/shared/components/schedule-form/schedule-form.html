@@ -1,0 +1,37 @@
+<div class="schedule-form-card">
+  <h4 class="form-title">{{ title }}</h4>
+  @if (submitError()) {
+    <p class="form-error">{{ submitError() }}</p>
+  }
+  <div class="form-row">
+    <label>Time</label>
+    <input type="time" [ngModel]="scheduleTime()" (ngModelChange)="scheduleTime.set($event)" />
+  </div>
+  <div class="form-row">
+    <label>Portion (g, optional)</label>
+    <input
+      type="number"
+      min="0"
+      step="1"
+      [ngModel]="schedulePortion()"
+      (ngModelChange)="schedulePortion.set($event ?? null)"
+      placeholder="Optional"
+    />
+  </div>
+  <div class="form-row checkbox">
+    <label>
+      <input
+        type="checkbox"
+        [ngModel]="scheduleEnabled()"
+        (ngModelChange)="scheduleEnabled.set($event)"
+      />
+      Enabled
+    </label>
+  </div>
+  <div class="form-actions">
+    <button type="button" class="btn secondary" (click)="cancel()">Cancel</button>
+    <button type="button" class="btn primary" (click)="submit()" [disabled]="submitting()">
+      {{ submitting() ? 'Saving...' : 'Save' }}
+    </button>
+  </div>
+</div>

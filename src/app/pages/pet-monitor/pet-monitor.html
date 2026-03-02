@@ -1,5 +1,5 @@
-<div class="page">
-  <button type="button" class="back" (click)="goBack()">← Back to pets</button>
+<div class="pet-profile-page">
+  <button type="button" class="back-btn" (click)="goBack()">← Back to pets</button>
 
   @if (errorMessage) {
     <p class="error">{{ errorMessage }}</p>
@@ -9,24 +9,86 @@
   }
 
   @if (!loading && pet) {
-    <header class="header">
+    <header class="profile-header">
       <div class="header-left">
         <h1>{{ pet.name }}</h1>
         <p class="meta">{{ pet.species }} @if (pet.breed) { · {{ pet.breed }} }</p>
       </div>
       <div class="header-right">
-        <button type="button" class="btn-link-device" (click)="openLinkDialog()">
+        <button type="button" class="btn primary" (click)="openLinkDialog()">
           Link device
         </button>
       </div>
     </header>
 
-    <section class="section devices-section">
+    <!-- High-visibility sensor cards -->
+    <section class="sensor-section">
+      <h2>Live at a glance</h2>
+      <div class="sensor-cards">
+        @if (collar) {
+          <app-sensor-card
+            label="Current pet temp"
+            [value]="getLatest(collar.id)?.temperature ?? null"
+            unit="°C"
+          />
+        }
+        @if (feeder) {
+          <app-sensor-card
+            label="Water level"
+            [value]="getLatest(feeder.id)?.water_level ?? null"
+            unit="%"
+          />
+        }
+        @if (collar) {
+          <div class="sensor-card battery-wrap">
+            <span class="label">Battery (collar)</span>
+            <app-battery-level
+              [level]="getLatest(collar.id)?.battery_level ?? null"
+              [showLabel]="true"
+            />
+          </div>
+        }
+        @if (devices.length === 0) {
+          <p class="no-data">Link a collar or feeder to see live data here.</p>
+        }
+      </div>
+    </section>
+
+    <!-- Map (collar GPS) -->
+    @if (mapUrl) {
+      <section class="map-section">
+        <h2>Location</h2>
+        <div class="map-wrap">
+          <iframe
+            [src]="mapUrl"
+            class="map-iframe"
+            title="Pet location"
+            width="100%"
+            height="280"
+            loading="lazy"
+          ></iframe>
+        </div>
+      </section>
+    }
+
+    <!-- Push-to-Talk -->
+    @if (collar) {
+      <section class="talk-section">
+        <h2>Talk to your pet</h2>
+        <p class="hint">Use the collar speaker for live audio (streaming coming soon).</p>
+        <button type="button" class="btn push-to-talk" (click)="startPushToTalk()">
+          Push to talk
+        </button>
+      </section>
+    }
+
+    <!-- Linked devices -->
+    <section class="devices-section">
       <h2>Devices</h2>
       @if (devices.length === 0) {
         <div class="no-devices">
-          <p>No devices added.</p>
-          <p class="hint">Click <strong>Link device</strong> (top right) to add and link a device to this pet.</p>
+          <p>No devices linked.</p>
+          <p class="hint">Click <strong>Link device</strong> to add a collar or feeder.</p>
         </div>
       } @else {
         <ul class="device-list">
@@ -34,12 +96,14 @@
             <li class="device-item">
               <a [routerLink]="['/device', d.id]" class="device-link">
                 <span class="device-mac">{{ d.mac_address }}</span>
-                <span class="device-badge" [class.collar]="d.type === 'COLLAR'" [class.feeder]="d.type === 'FEEDER'">
-                  {{ d.type }}
-                </span>
-                <span class="device-status">{{ d.status }}</span>
+                <app-device-type-badge [type]="d.type" />
+                <app-status-badge [status]="d.status === 'claimed' ? 'claimed' : 'unclaimed'" />
+                <app-battery-level
+                  [level]="getLatest(d.id)?.battery_level ?? null"
+                  [showLabel]="true"
+                />
               </a>
-              <button type="button" class="btn-unlink" (click)="unlinkDevice(d)">Unlink</button>
+              <button type="button" class="btn secondary small" (click)="unlinkDevice(d)">Unlink</button>
             </li>
           }
         </ul>

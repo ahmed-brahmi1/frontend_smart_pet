@@ -1,0 +1,8 @@
+<div class="battery-wrap">
+  <div class="battery-body" [class.low]="isLow" [class.empty]="isEmpty">
+    <div class="battery-fill" [style.width.%]="levelValue"></div>
+  </div>
+  @if (showLabel()) {
+    <span class="battery-label">{{ level() != null ? levelValue + '%' : '--' }}</span>
+  }
+</div>

@@ -1,0 +1,41 @@
+.battery-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.battery-body {
+  width: 2.5rem;
+  height: 0.75rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 2px;
+  overflow: hidden;
+  background: #f1f5f9;
+
+  &.low {
+    border-color: #f59e0b;
+  }
+
+  &.empty {
+    border-color: #ef4444;
+  }
+}
+
+.battery-fill {
+  height: 100%;
+  background: #22c55e;
+  transition: width 0.2s ease;
+
+  .battery-body.low & {
+    background: #f59e0b;
+  }
+
+  .battery-body.empty & {
+    background: #ef4444;
+  }
+}
+
+.battery-label {
+  font-size: 0.875rem;
+  color: #64748b;
+}
