@@ -2,7 +2,9 @@
   <app-user-sidebar></app-user-sidebar>
   <div class="user-main-wrap">
     <header class="user-header">
-      <app-pet-switcher></app-pet-switcher>
+      @if (showPetSwitcher) {
+        <app-pet-switcher></app-pet-switcher>
+      }
     </header>
     <main class="user-content">
       <router-outlet></router-outlet>

@@ -5,7 +5,7 @@ import { UserLayout } from './layouts/user-layout/user-layout';
 import { Dashboard } from './pages/dashboard/dashboard';
 import { DeviceDetail } from './pages/devices/device-detail/device-detail';
 import { About } from './pages/about/about';
-import { Pets } from './pages/pets/pets';
+import { Pets } from './admin/pets/pets';
 import { PetMonitor } from './pages/pet-monitor/pet-monitor';
 import { HealthMonitoring } from './pages/health-monitoring/health-monitoring';
 import { FoodMonitoring } from './pages/food-monitoring/food-monitoring';

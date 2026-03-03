@@ -24,12 +24,13 @@ export class Pets implements OnInit {
 
   showForm = false;
   editingId: string | null = null;
-  form: { name: string; species: string; breed: string; weight: string; calorie_goal: string } = {
+  form: { name: string; species: string; breed: string; weight: string; calorie_goal: string; owner: string } = {
     name: '',
     species: '',
     breed: '',
     weight: '',
     calorie_goal: '',
+    owner: '',
   };
 
   ngOnInit(): void {
@@ -56,7 +57,7 @@ export class Pets implements OnInit {
 
   openAdd(): void {
     this.editingId = null;
-    this.form = { name: '', species: '', breed: '', weight: '', calorie_goal: '' };
+    this.form = { name: '', species: '', breed: '', weight: '', calorie_goal: '', owner: '' };
     this.showForm = true;
   }
 
@@ -68,6 +69,7 @@ export class Pets implements OnInit {
       breed: pet.breed ?? '',
       weight: pet.weight != null ? String(pet.weight) : '',
       calorie_goal: pet.calorie_goal != null ? String(pet.calorie_goal) : '',
+      owner: pet.owner_id ?? '',
     };
     this.showForm = true;
   }
@@ -95,7 +97,7 @@ export class Pets implements OnInit {
     const weight = weightStr ? Number(weightStr) : undefined;
     const calorie_goal = calorieStr ? Number(calorieStr) : undefined;
     const breed = String(this.form.breed ?? '').trim() || undefined;
-
+    const owner_id = String(this.form.owner ?? '').trim() || undefined;
     if (this.editingId) {
       const body: UpdatePetDto = { name, species, breed, weight, calorie_goal };
       this.petService.update(this.editingId, body).subscribe({
@@ -108,7 +110,7 @@ export class Pets implements OnInit {
         },
       });
     } else {
-      const body: CreatePetDto = { name, species, breed, weight, calorie_goal };
+      const body: CreatePetDto = { name, species, breed, weight, calorie_goal, owner_id };
       this.petService.create(body).subscribe({
         next: () => {
           this.loadPets();
@@ -121,9 +123,6 @@ export class Pets implements OnInit {
     }
   }
 
-  goToMonitor(pet: Pet): void {
-    this.router.navigate(['/pet', pet.id]);
-  }
 
   deletePet(pet: Pet): void {
     if (!confirm(`Delete "${pet.name}"?`)) return;

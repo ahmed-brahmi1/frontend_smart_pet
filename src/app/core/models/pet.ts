@@ -21,7 +21,6 @@ export interface CreatePetDto {
 
 /** Request body for PATCH /pet/:id */
 export interface UpdatePetDto {
-  owner_id?: string;
   name?: string;
   species?: string;
   breed?: string;

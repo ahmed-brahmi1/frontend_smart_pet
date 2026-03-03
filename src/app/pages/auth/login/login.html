@@ -1,39 +1,37 @@
 <div class="login-container">
-  <div class="login-card">
-
-    <div class="logo">🐾</div>
-
-    <h2>Smart Pet</h2>
-    <p class="subtitle">
-      Login to monitor your pet's health and activity
-    </p>
-
-    <form (ngSubmit)="onLogin()">
-      <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
-      <input
-        type="email"
-        placeholder="Email"
-        [(ngModel)]="email"
-        name="email"
-        required
-      />
-
-      <input
-        type="password"
-        placeholder="Password"
-        [(ngModel)]="password"
-        name="password"
-        required
-      />
-
-      <button type="submit" [disabled]="loading">
-        {{ loading ? 'Signing in...' : 'Login' }}
-      </button>
-      <p class="subtitle" style="margin-top:15px; cursor:pointer;"
-         (click)="goToRegister()">
-        Don't have an account?
+  <div class="login-card glass-panel">
+    <div class="login-card__inner">
+      <div class="logo">🐾</div>
+      <h1 class="login-title"><span class="login-title--white">Smart</span> <span class="login-title--gold">Pet</span></h1>
+      <p class="subtitle">
+        Login to monitor your pet's health and activity
       </p>
-    </form>
 
+      <form (ngSubmit)="onLogin()" class="login-form">
+        <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
+        <input
+          type="email"
+          placeholder="Email"
+          [(ngModel)]="email"
+          name="email"
+          required
+          class="login-input"
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          [(ngModel)]="password"
+          name="password"
+          required
+          class="login-input"
+        />
+        <button type="submit" class="btn-login" [disabled]="loading">
+          {{ loading ? 'Signing in...' : 'Login' }}
+        </button>
+        <p class="subtitle signup-link" (click)="goToRegister()">
+          Don't have an account? <span class="signup-link__text">Sign up</span>
+        </p>
+      </form>
+    </div>
   </div>
 </div>

@@ -1,0 +1,99 @@
+<main class="pets-page">
+  <h1>Pets</h1>
+  <p class="subtitle">Manage your pets and their data.</p>
+
+  @if (errorMessage) {
+    <p class="error">{{ errorMessage }}</p>
+  }
+
+  <div class="toolbar">
+    <button type="button" class="btn-add" (click)="openAdd()">+ Add pet</button>
+  </div>
+
+  @if (loading) {
+    <div class="loading">Loading pets...</div>
+  }
+
+  @if (showForm) {
+    <div class="dialog-backdrop" (click)="cancelForm()" role="button" tabindex="0" (keydown.escape)="cancelForm()" aria-label="Close dialog">
+      <div class="dialog" (click)="$event.stopPropagation()" role="dialog" aria-modal="true" aria-labelledby="pet-dialog-title">
+        <h3 id="pet-dialog-title" class="dialog-title">{{ editingId ? 'Edit pet' : 'New pet' }}</h3>
+        <form (ngSubmit)="saveForm()">
+          <div class="form-row">
+            <label>Name</label>
+            <input type="text" [(ngModel)]="form.name" name="name" required />
+          </div>
+          <div class="form-row">
+            <label>Species</label>
+            <input type="text" [(ngModel)]="form.species" name="species" required />
+          </div>
+          <div class="form-row">
+            <label>Breed</label>
+            <input type="text" [(ngModel)]="form.breed" name="breed" />
+          </div>
+          <div class="form-row">
+            <label>Weight (kg)</label>
+            <input type="number" step="0.1" [(ngModel)]="form.weight" name="weight" />
+          </div>
+          <div class="form-row">
+            <label>Calorie goal</label>
+            <input type="number" [(ngModel)]="form.calorie_goal" name="calorie_goal" />
+          </div>
+          @if(editingId) {
+            <div class="form-row">
+              <label>Owner</label>
+              <input type="text" [(ngModel)]="form.owner" name="owner" disabled />
+            </div>
+          }
+          @else {
+            <div class="form-row">
+              <label>Owner</label>
+              <input type="text" [(ngModel)]="form.owner" name="owner" />
+            </div>
+          }
+          <div class="dialog-actions">
+            <button type="button" class="btn-secondary" (click)="cancelForm()">Cancel</button>
+            <button type="submit" class="btn-primary">Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  }
+
+  @if (!loading && pets.length > 0) {
+    <div class="pets-grid">
+      @for (pet of pets; track pet.id) {
+        <div class="pet-card">
+          <div class="pet-header">
+            <h3>{{ pet.name }}</h3>
+            <span class="pet-species">{{ pet.species }}</span>
+          </div>
+          <dl class="pet-details">
+            @if (pet.breed) {
+              <span><dt>Breed</dt><dd>{{ pet.breed }}</dd></span>
+            }
+            @if (pet.weight != null) {
+              <span><dt>Weight</dt><dd>{{ pet.weight }} kg</dd></span>
+            }
+            @if (pet.calorie_goal != null) {
+              <span><dt>Calorie goal</dt><dd>{{ pet.calorie_goal }} kcal</dd></span>
+            }
+            @if (pet.owner_id != null) {
+              <span><dt>Owner</dt><dd>{{ pet.owner_id }}</dd></span>
+            }
+          </dl>
+          <div class="pet-actions">
+            <button type="button" class="btn-modify" (click)="openEdit(pet); $event.stopPropagation()">Modify</button>
+            <button type="button" class="btn-delete" (click)="deletePet(pet); $event.stopPropagation()">Delete</button>
+          </div>
+        </div>
+      }
+    </div>
+  }
+
+  @if (!loading && !errorMessage && pets.length === 0) {
+    <div class="empty">
+      No pets yet. Click "Add pet" to create one.
+    </div>
+  }
+</main>

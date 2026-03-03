@@ -6,10 +6,20 @@
 }
 
 .card {
-  background: var(--card-bg, #fff);
-  border-radius: 12px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: var(--glass-border);
+  border-radius: var(--glass-radius-card);
+  box-shadow: var(--glass-shadow);
   padding: 1.25rem 1.5rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  min-width: 0;
+  transition: all 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+    border-color: rgba(255, 255, 255, 0.15);
+  }
 }
 
 .page-header-card {
@@ -25,11 +35,12 @@
   h2 {
     margin: 0;
     font-size: 1.35rem;
+    color: var(--color-text-primary);
   }
 
   .card-subtitle {
     margin: 0;
-    color: var(--text-muted, #666);
+    color: var(--color-text-secondary);
     font-size: 0.9rem;
   }
 
@@ -38,16 +49,23 @@
     align-items: center;
     gap: 0.4rem;
     padding: 0.5rem 1rem;
-    background: var(--primary, #2563eb);
-    color: #fff;
-    border: none;
-    border-radius: 8px;
+    background: var(--color-gold-gradient);
+    color: var(--color-text-on-gold);
+    border: 1px solid var(--color-gold-dark);
+    border-radius: 0.5rem;
     font-size: 0.95rem;
     font-weight: 500;
     cursor: pointer;
+    transition: all 0.3s ease;
 
     &:hover {
-      filter: brightness(1.05);
+      filter: brightness(1.08);
+      box-shadow: 0 4px 12px rgba(212, 175, 55, 0.35);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--color-primary-gold);
+      outline-offset: 2px;
     }
 
     i {
@@ -60,12 +78,13 @@
   .card-title {
     margin: 0 0 1rem;
     font-size: 1.1rem;
+    color: var(--color-text-primary);
   }
 
   .loading-msg,
   .empty-msg {
     margin: 0;
-    color: var(--text-muted, #666);
+    color: var(--color-text-secondary);
     font-size: 0.95rem;
   }
 
@@ -76,13 +95,23 @@
   }
 
   .device-card {
-    background: var(--card-inner-bg, #f8f9fa);
-    border: 1px solid var(--border-color, #eee);
-    border-radius: 10px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    border: var(--glass-border);
+    border-radius: var(--glass-radius-card);
+    box-shadow: var(--glass-shadow);
     padding: 1rem;
+    min-width: 0;
     display: flex;
     flex-direction: column;
     gap: 0.35rem;
+    transition: all 0.3s ease;
+
+    &:hover {
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+      border-color: rgba(255, 255, 255, 0.15);
+    }
 
     .device-card-header {
       display: flex;
@@ -129,12 +158,13 @@
       font-family: ui-monospace, monospace;
       font-size: 0.95rem;
       font-weight: 500;
+      color: var(--color-text-primary);
     }
 
     .device-owner,
     .device-id {
       font-size: 0.8rem;
-      color: var(--text-muted, #666);
+      color: var(--color-text-secondary);
     }
 
     .device-id {
@@ -156,30 +186,39 @@
       gap: 0.35rem;
       padding: 0.35rem 0.65rem;
       border: none;
-      border-radius: 6px;
+      border-radius: 0.5rem;
       font-size: 0.85rem;
       cursor: pointer;
+      transition: all 0.3s ease;
 
       i {
         font-size: 1rem;
       }
+
+      &:focus-visible {
+        outline: 2px solid currentColor;
+        outline-offset: 2px;
+      }
     }
 
     .btn-modify {
-      background: var(--primary, #2563eb);
-      color: #fff;
+      background: var(--color-gold-gradient);
+      color: var(--color-text-on-gold);
+      border: 1px solid var(--color-gold-dark);
 
       &:hover {
-        filter: brightness(1.05);
+        filter: brightness(1.08);
+        box-shadow: 0 2px 8px rgba(212, 175, 55, 0.35);
       }
     }
 
     .btn-delete {
-      background: #fee2e2;
-      color: #b91c1c;
+      background: var(--color-accent-red);
+      color: #fff;
 
       &:hover {
-        background: #fecaca;
+        filter: brightness(1.1);
+        box-shadow: 0 2px 8px rgba(245, 92, 92, 0.4);
       }
     }
   }
@@ -187,9 +226,9 @@
 
 .add-dialog {
   border: none;
-  border-radius: 12px;
+  border-radius: 1rem;
   padding: 0;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.08);
   max-width: 94vw;
   width: 420px;
 
@@ -199,10 +238,12 @@
 
   .dialog-inner {
     padding: 1.5rem;
+    color: var(--color-text-primary);
 
     h3 {
       margin: 0 0 1.25rem;
       font-size: 1.2rem;
+      color: var(--color-text-primary);
     }
 
     form {
@@ -214,18 +255,26 @@
     label {
       font-size: 0.875rem;
       font-weight: 500;
+      color: var(--color-text-secondary);
     }
 
     input,
     select {
       padding: 0.5rem 0.75rem;
       border: 1px solid var(--border-color, #ddd);
-      border-radius: 8px;
+      border-radius: 0.5rem;
       font-size: 1rem;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+      &:focus {
+        outline: none;
+        border-color: var(--primary, #2563eb);
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+      }
     }
 
     .error {
-      color: var(--error-color, #c00);
+      color: var(--color-accent-red);
       font-size: 0.9rem;
       margin: 0;
     }
@@ -240,25 +289,43 @@
     .btn-cancel {
       padding: 0.5rem 1rem;
       background: transparent;
-      color: var(--text-muted, #666);
-      border: 1px solid var(--border-color, #ddd);
-      border-radius: 8px;
+      color: var(--color-text-secondary);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 0.5rem;
       font-size: 0.95rem;
       cursor: pointer;
+      transition: all 0.3s ease;
 
       &:hover {
-        background: #f5f5f5;
+        background: rgba(255, 255, 255, 0.08);
+        border-color: rgba(255, 255, 255, 0.3);
+      }
+
+      &:focus-visible {
+        outline: 2px solid var(--color-text-secondary);
+        outline-offset: 2px;
       }
     }
 
     .btn-submit {
       padding: 0.5rem 1rem;
-      background: var(--primary, #2563eb);
-      color: #fff;
-      border: none;
-      border-radius: 8px;
+      background: var(--color-gold-gradient);
+      color: var(--color-text-on-gold);
+      border: 1px solid var(--color-gold-dark);
+      border-radius: 0.5rem;
       font-size: 0.95rem;
       cursor: pointer;
+      transition: all 0.3s ease;
+
+      &:hover:not(:disabled) {
+        filter: brightness(1.08);
+        box-shadow: 0 4px 12px rgba(212, 175, 55, 0.35);
+      }
+
+      &:focus-visible {
+        outline: 2px solid var(--color-primary-gold);
+        outline-offset: 2px;
+      }
 
       &:disabled {
         opacity: 0.7;

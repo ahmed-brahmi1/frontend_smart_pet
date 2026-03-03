@@ -1,4 +1,45 @@
-/* Global styles – Tailwind can be added via @tailwindcss/postcss later */
+/* ========== DESIGN TOKENS (from reference images) ========== */
+:root {
+  /* Colors – Gold accent */
+  --color-primary-gold: #d4af37;
+  --color-gold-light: #d9b450;
+  --color-gold-dark: #af8c32;
+  --color-gold-gradient: linear-gradient(135deg, #d9b450 0%, #af8c32 100%);
+
+  /* Dark backgrounds */
+  --color-bg-main: #363636;
+  --color-bg-sidebar: #2c2c2c;
+  --color-bg-header: #1a1a1a;
+
+  /* Text */
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #cccccc;
+  --color-text-muted: #999999;
+  --color-text-login-label: #b0b0b0;
+  --color-text-placeholder: #e0e0e0;
+  --color-text-on-gold: #333333;
+
+  /* Accent red (logout, alerts) */
+  --color-accent-red: #f55c5c;
+
+  /* Typography */
+  --font-heading: 'Playfair Display', Georgia, serif;
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+
+  /* Glassmorphism – cards */
+  --glass-bg: rgba(255, 255, 255, 0.08);
+  --glass-bg-panel: rgba(255, 255, 255, 0.15);
+  --glass-border: 1px solid rgba(255, 255, 255, 0.1);
+  --glass-border-panel: 1px solid rgba(255, 255, 255, 0.2);
+  --glass-blur: 10px;
+  --glass-blur-panel: 15px;
+  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+  --glass-radius-card: 15px;
+  --glass-radius-panel: 20px;
+  --glass-radius-input: 10px;
+}
+
+/* ========== GLOBAL BASE ========== */
 html,
 body {
   margin: 0;
@@ -6,8 +47,12 @@ body {
 }
 
 body {
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
-  color: #0f172a;
-  background: #f1f5f9;
+  color: var(--color-text-primary);
+  background: var(--color-bg-main);
+}
+
+h1, h2, h3, .font-heading {
+  font-family: var(--font-heading);
 }

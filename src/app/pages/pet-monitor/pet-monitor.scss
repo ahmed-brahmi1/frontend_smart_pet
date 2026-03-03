@@ -8,20 +8,29 @@
   color: #2563eb;
   cursor: pointer;
   margin-bottom: 1rem;
-  padding: 0;
+  padding: 0.25rem 0;
   font-size: 0.875rem;
+  transition: color 0.3s ease;
 
   &:hover {
     text-decoration: underline;
+    color: #1d4ed8;
+  }
+
+  &:focus-visible {
+    outline: 2px solid #2563eb;
+    outline-offset: 2px;
+    border-radius: 0.25rem;
   }
 }
 
 .error {
-  color: #c00;
-  background: #ffe0e0;
-  padding: 12px;
-  border-radius: 8px;
-  margin-bottom: 16px;
+  color: #b91c1c;
+  background: #fee2e2;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  margin-bottom: 1rem;
+  border: 1px solid rgba(185, 28, 28, 0.2);
 }
 
 .loading {
@@ -71,9 +80,18 @@
     flex-direction: column;
     gap: 0.5rem;
     padding: 1rem 1.25rem;
-    background: #fff;
-    border-radius: 0.5rem;
-    border: 1px solid #e2e8f0;
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    border: var(--glass-border);
+    border-radius: var(--glass-radius-card);
+    box-shadow: var(--glass-shadow);
+    transition: all 0.3s ease;
+
+    &:hover {
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+      border-color: rgba(255, 255, 255, 0.15);
+    }
 
     .label {
       font-size: 0.75rem;
@@ -88,10 +106,20 @@
     grid-column: 1 / -1;
     margin: 0;
     padding: 1rem;
-    background: #f8fafc;
-    border-radius: 0.5rem;
-    color: #64748b;
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    border: var(--glass-border);
+    border-radius: var(--glass-radius-card);
+    box-shadow: var(--glass-shadow);
+    color: var(--color-text-secondary, #64748b);
     font-size: 0.9375rem;
+    transition: all 0.3s ease;
+
+    &:hover {
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+      border-color: rgba(255, 255, 255, 0.15);
+    }
   }
 }
 
@@ -107,9 +135,10 @@
 }
 
 .map-wrap {
-  border-radius: 0.5rem;
+  border-radius: 1rem;
   overflow: hidden;
   border: 1px solid #e2e8f0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
 .map-iframe {
@@ -142,9 +171,16 @@
   border-radius: 0.5rem;
   font-weight: 600;
   cursor: pointer;
+  transition: all 0.3s ease;
 
   &:hover {
     background: #1d4ed8;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
+  }
+
+  &:focus-visible {
+    outline: 2px solid #2563eb;
+    outline-offset: 2px;
   }
 }
 
@@ -160,10 +196,20 @@
 }
 
 .no-devices {
-  background: #f8f9fa;
-  padding: 24px;
-  border-radius: 10px;
-  color: #555;
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: var(--glass-border);
+  border-radius: var(--glass-radius-card);
+  box-shadow: var(--glass-shadow);
+  padding: 1.5rem;
+  color: var(--color-text-secondary, #475569);
+  transition: all 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+    border-color: rgba(255, 255, 255, 0.15);
+  }
 
   .hint {
     margin: 8px 0 0 0;
@@ -184,6 +230,11 @@
   gap: 0.75rem;
   padding: 0.75rem 1rem;
   border-bottom: 1px solid #e2e8f0;
+  transition: background 0.2s ease;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.02);
+  }
 
   &:last-child {
     border-bottom: none;
@@ -197,9 +248,16 @@
   gap: 0.75rem;
   text-decoration: none;
   color: inherit;
+  transition: color 0.2s ease;
 
   &:hover {
     text-decoration: underline;
+  }
+
+  &:focus-visible {
+    outline: 2px solid #2563eb;
+    outline-offset: 2px;
+    border-radius: 0.25rem;
   }
 }
 
@@ -227,8 +285,8 @@
 
 .dialog {
   background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  border-radius: 1rem;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.8);
   max-width: 440px;
   width: 100%;
 }
@@ -250,14 +308,21 @@
 .dialog-close {
   background: none;
   border: none;
-  font-size: 24px;
+  font-size: 1.5rem;
   line-height: 1;
   cursor: pointer;
-  color: #666;
-  padding: 0 4px;
+  color: #64748b;
+  padding: 0 0.25rem;
+  transition: color 0.3s ease;
+  border-radius: 0.25rem;
 
   &:hover {
-    color: #333;
+    color: #1e293b;
+  }
+
+  &:focus-visible {
+    outline: 2px solid #64748b;
+    outline-offset: 2px;
   }
 }
 
@@ -272,17 +337,28 @@
 }
 
 .tab {
-  padding: 8px 14px;
-  border-radius: 8px;
-  border: 1px solid #ddd;
-  background: #f9f9f9;
+  padding: 0.5rem 0.875rem;
+  border-radius: 0.5rem;
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 0.875rem;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: #f1f5f9;
+    border-color: #cbd5e1;
+  }
 
   &.active {
-    background: #2f5bd5;
+    background: #2563eb;
     color: #fff;
-    border-color: #2f5bd5;
+    border-color: #2563eb;
+  }
+
+  &:focus-visible {
+    outline: 2px solid #2563eb;
+    outline-offset: 2px;
   }
 }
 
@@ -327,18 +403,26 @@
 }
 
 .btn {
-  padding: 10px 20px;
-  border-radius: 8px;
+  padding: 0.625rem 1.25rem;
+  border-radius: 0.5rem;
   border: none;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+
+  &:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+  }
 
   &.primary {
-    background: #2f5bd5;
+    background: #2563eb;
     color: #fff;
 
     &:hover:not(:disabled) {
-      background: #1f3b73;
+      background: #1d4ed8;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
     }
 
     &:disabled {
@@ -348,11 +432,11 @@
   }
 
   &.secondary {
-    background: #e0e0e0;
-    color: #333;
+    background: #e2e8f0;
+    color: #334155;
 
     &:hover {
-      background: #d0d0d0;
+      background: #cbd5e1;
     }
   }
 }
