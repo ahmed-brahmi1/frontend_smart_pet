@@ -1,68 +1,159 @@
 <main class="content dashboard-page">
-  <h1 class="dashboard-page__title">Dashboard</h1>
-  <p class="subtitle">
-    Track your devices, pets, and sensor data for your active pet
-  </p>
+  <div class="dashboard-header-row">
+    <div class="dashboard-header-row__left">
+      <h1 class="dashboard-page__title">Dashboard</h1>
+      <p class="subtitle">
+        Keep an eye on {{ activePetService.activePet()?.name || 'your pet' }}’s activity and wellbeing
+      </p>
+    </div>
+    <div class="dashboard-header-row__right" *ngIf="activePetService.activePet()">
+      <div
+        class="status-indicator"
+        [class.status-indicator--online]="isOnline"
+        [class.status-indicator--offline]="!isOnline"
+      >
+        <span class="status-indicator__dot"></span>
+        <span class="status-indicator__label">
+          {{ isOnline ? 'Online' : 'Offline' }}
+        </span>
+      </div>
+      <div class="battery-indicator">
+        <span class="battery-indicator__label">Battery</span>
+        <span class="battery-indicator__value">
+          {{ latestBattery != null ? (latestBattery + '%') : '--%' }}
+        </span>
+      </div>
+    </div>
+  </div>
 
-  <p *ngIf="!activePetService.activePet()" class="hint">Select a pet in the header to see dashboard data.</p>
+  <p *ngIf="!activePetService.activePet()" class="hint">
+    Select a pet in the header to see dashboard data.
+  </p>
 
   <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
 
-  <!-- STATS CARDS -->
-  <div class="cards" *ngIf="activePetService.activePet()">
-    <div class="card">
-      <h3>My Devices</h3>
-      <p>{{ devices.length }}</p>
+  <ng-container *ngIf="activePetService.activePet() as pet">
+    <!-- Pet summary -->
+    <div class="cards pet-summary-row">
+      <div class="card pet-summary-card">
+        <h3>Active pet</h3>
+        <div class="pet-summary-card__content">
+          <div class="pet-summary-card__name">{{ pet.name }}</div>
+          <div class="pet-summary-card__meta">
+            <span class="pet-summary-card__species">{{ pet.species }}</span>
+            <span class="pet-summary-card__separator" *ngIf="pet.breed">•</span>
+            <span class="pet-summary-card__breed" *ngIf="pet.breed">{{ pet.breed }}</span>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="card">
-      <h3>My Pets</h3>
-      <p>{{ pets.length }}</p>
-    </div>
-    <div class="card">
-      <h3>Battery Level</h3>
-      <p>{{ latestBattery != null ? latestBattery + '%' : '--' }}</p>
-    </div>
-    <div class="card">
-      <h3>Food Level</h3>
-      <p>{{ latestFoodLevel != null ? latestFoodLevel + ' g' : '--' }}</p>
-    </div>
-  </div>
 
-  <!-- DEVICE LIST (by type: COLLAR / FEEDER) -->
-  <div class="device-section" *ngIf="activePetService.activePet() && devices.length > 0">
-    <h2>Devices</h2>
-    <div class="device-list">
-      <a *ngFor="let d of devices" [routerLink]="['/device', d.id]" class="device-card">
-        <span class="device-mac">{{ d.mac_address }}</span>
-        <span class="device-badge" [class.collar]="d.type === 'COLLAR'" [class.feeder]="d.type === 'FEEDER'">
-          {{ d.type }}
-        </span>
-        <span class="device-status">{{ d.status }}</span>
-      </a>
-    </div>
-  </div>
+    <!-- Location card (full width, larger) -->
+    <div class="location-alerts-stack">
+      <div class="card map-card">
+        <div class="map-card__header">
+          <h3>Location</h3>
+        </div>
+        <div class="map-card__body" *ngIf="deviceData.length > 0; else noDataMap">
+          <ng-container *ngIf="mapUrl; else noGps">
+            <iframe
+              class="map-card__iframe"
+              [src]="mapUrl"
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+            ></iframe>
+          </ng-container>
+        </div>
+        <ng-template #noDataMap>
+          <div class="map-card__placeholder">
+            No device data yet.
+          </div>
+        </ng-template>
+        <ng-template #noGps>
+          <div class="map-card__placeholder">
+            No GPS data yet.
+          </div>
+        </ng-template>
+      </div>
 
-  <div class="charts-grid" *ngIf="activePetService.activePet() && deviceData.length > 0 && isBrowser">
-    <div class="chart-card">
-      <div class="chart-header">
-        <h3>Battery level over time</h3>
-      </div>
-      <div class="chart-container">
-        <canvas id="batteryChart"></canvas>
+      <!-- Recent alerts card (below location) -->
+      <div class="card alerts-card">
+        <div class="alerts-card__header">
+          <h3>Recent alerts</h3>
+        </div>
+        <div class="alerts-card__body" *ngIf="recentAlerts.length > 0; else noAlerts">
+          <ul class="alerts-card__list">
+            <li class="alerts-card__item" *ngFor="let alert of recentAlerts">
+              <span class="alerts-card__badge alerts-card__badge--{{ alert.type }}">
+                {{
+                  alert.type === 'temperature'
+                    ? 'Temperature'
+                    : alert.type === 'battery'
+                    ? 'Battery'
+                    : 'Connection'
+                }}
+              </span>
+              <div class="alerts-card__text">
+                <div class="alerts-card__message">{{ alert.message }}</div>
+                <div class="alerts-card__timestamp">
+                  {{ alert.timestamp | date : 'short' }}
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <ng-template #noAlerts>
+          <div class="alerts-card__placeholder">
+            No recent alerts.
+          </div>
+        </ng-template>
       </div>
     </div>
-    <div class="chart-card" *ngIf="hasFoodLevelData">
-      <div class="chart-header">
-        <h3>Food level over time (g)</h3>
+
+    <!-- Activity + temperature charts -->
+    <div class="charts-grid" *ngIf="isBrowser">
+      <div class="chart-card">
+        <div class="chart-header">
+          <h3>Today's activity</h3>
+          <div class="chart-value">
+            {{ hasStepsMetric ? 'Steps' : 'Readings/hour' }}
+          </div>
+        </div>
+        <div class="chart-container">
+          <canvas id="dailyActivityChart"></canvas>
+        </div>
       </div>
-      <div class="chart-container">
-        <canvas id="foodChart"></canvas>
+
+      <div class="chart-card">
+        <div class="chart-header">
+          <h3>Last 7 days activity</h3>
+          <div class="chart-value">
+            {{ hasStepsMetric ? 'Steps' : 'Readings/day' }}
+          </div>
+        </div>
+        <div class="chart-container">
+          <canvas id="weeklyActivityChart"></canvas>
+        </div>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-header">
+          <h3>Temperature trend</h3>
+        </div>
+        <div class="chart-container">
+          <canvas id="temperatureChart"></canvas>
+        </div>
       </div>
     </div>
-  </div>
+
+    <div
+      class="empty"
+      *ngIf="!loading && !errorMessage && deviceData.length === 0"
+    >
+      No device data yet. Once your pet's devices start sending data, location,
+      activity, and temperature will appear here.
+    </div>
+  </ng-container>
 
   <div class="loading" *ngIf="loading">Loading...</div>
-  <div class="empty" *ngIf="activePetService.activePet() && !loading && !errorMessage && deviceData.length === 0">
-    No device data yet. Ingest data from your devices to see charts here.
-  </div>
 </main>

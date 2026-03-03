@@ -13,12 +13,13 @@ import { isPlatformBrowser } from '@angular/common';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Chart, registerables } from 'chart.js';
-import { forkJoin, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { Subject, of } from 'rxjs';
+import { catchError, map, takeUntil } from 'rxjs/operators';
 import { ActivePetService } from '../../core/services/active-pet.service';
 import { PetService } from '../../core/services/pet.service';
 import { DeviceService } from '../../core/services/device.service';
 import { DeviceDataService, DeviceDatum } from '../../core/services/device-data.service';
+import { WebsocketService, type DeviceDataEvent } from '../../core/services/websocket.service';
 import type { Device } from '../../core/models/device';
 import type { ClaimDeviceDto } from '../../core/models/device';
 import type { LinkDeviceDto } from '../../core/models/pet';
@@ -37,8 +38,10 @@ export class HealthMonitoring implements OnInit, OnDestroy {
   private readonly petService = inject(PetService);
   private readonly deviceService = inject(DeviceService);
   private readonly deviceDataService = inject(DeviceDataService);
+  private readonly websocket = inject(WebsocketService);
   private readonly platformId = inject(PLATFORM_ID);
   private readonly cdr = inject(ChangeDetectorRef);
+  private readonly destroy$ = new Subject<void>();
 
   readonly loading = signal(true);
   readonly errorMessage = signal('');
@@ -57,6 +60,27 @@ export class HealthMonitoring implements OnInit, OnDestroy {
   readonly unlinking = signal(false);
 
   readonly isBrowser = typeof window !== 'undefined';
+
+  /** Approximate meters per step for a pet (used to convert GPS distance to steps). */
+  private static readonly METERS_PER_STEP = 0.55;
+
+  /** Haversine distance in meters between two lat/lng points. */
+  private static haversineMeters(
+    lat1: number,
+    lng1: number,
+    lat2: number,
+    lng2: number
+  ): number {
+    const R = 6371000; // Earth radius in meters
+    const toRad = (x: number) => (x * Math.PI) / 180;
+    const dLat = toRad(lat2 - lat1);
+    const dLng = toRad(lng2 - lng1);
+    const a =
+      Math.sin(dLat / 2) ** 2 +
+      Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLng / 2) ** 2;
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+  }
 
   /** Temperature values from collar device data (this pet's collars only), sorted newest first. */
   readonly temperatureValues = computed(() => {
@@ -88,7 +112,7 @@ export class HealthMonitoring implements OnInit, OnDestroy {
     return 'normal';
   });
 
-  /** Steps: use optional steps from device data; average daily or latest. Backend may not have steps yet. */
+  /** Steps from device data when available (for fallback). */
   readonly stepsValues = computed(() => {
     const data = this.deviceData();
     const collarIds = new Set(this.collarDevice() ? [this.collarDevice()!.id] : []);
@@ -97,7 +121,51 @@ export class HealthMonitoring implements OnInit, OnDestroy {
       .map((d) => d.steps as number);
   });
 
+  /**
+   * Daily step counts derived from GPS: consecutive points distance (Haversine) per day,
+   * converted to steps using METERS_PER_STEP. One entry per day with movement.
+   */
+  readonly dailyStepsFromGps = computed(() => {
+    const data = this.deviceData();
+    const collarIds = new Set(this.collarDevice() ? [this.collarDevice()!.id] : []);
+    const withGps = data
+      .filter(
+        (d) =>
+          collarIds.has(d.device_id) &&
+          d.gps_lat != null &&
+          d.gps_lng != null
+      )
+      .sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
+
+    if (withGps.length < 2) return [] as number[];
+
+    const distanceByDay = new Map<string, number>();
+    for (let i = 1; i < withGps.length; i++) {
+      const prev = withGps[i - 1];
+      const cur = withGps[i];
+      const lat1 = prev.gps_lat!;
+      const lng1 = prev.gps_lng!;
+      const lat2 = cur.gps_lat!;
+      const lng2 = cur.gps_lng!;
+      const day = new Date(cur.timestamp).toISOString().slice(0, 10);
+      const meters = HealthMonitoring.haversineMeters(lat1, lng1, lat2, lng2);
+      distanceByDay.set(day, (distanceByDay.get(day) ?? 0) + meters);
+    }
+
+    const stepsPerDay = Array.from(distanceByDay.values()).map((meters) =>
+      Math.round(meters / HealthMonitoring.METERS_PER_STEP)
+    );
+    return stepsPerDay;
+  });
+
+  /** Average daily steps: from GPS-derived daily steps when available, else from device steps. */
   readonly averageDailySteps = computed(() => {
+    const gpsDaily = this.dailyStepsFromGps();
+    if (gpsDaily.length > 0) {
+      return Math.round(
+        gpsDaily.reduce((a, b) => a + b, 0) / gpsDaily.length
+      );
+    }
     const vals = this.stepsValues();
     if (vals.length === 0) return null;
     return Math.round(
@@ -112,7 +180,46 @@ export class HealthMonitoring implements OnInit, OnDestroy {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.websocket.deviceData$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((events) => this.applyWebSocketEvents(events));
+  }
+
+  private applyWebSocketEvents(events: DeviceDataEvent[]): void {
+    const collar = this.collarDevice();
+    if (!collar || events.length === 0) return;
+
+    const collarIdSet = new Set([collar.id]);
+    const existingKeys = new Set(
+      this.deviceData().map((d) => `${d.device_id}\t${d.timestamp}`)
+    );
+    const newRows: DeviceDatum[] = events
+      .filter(
+        (e) =>
+          collarIdSet.has(e.device_id) &&
+          !existingKeys.has(`${e.device_id}\t${e.timestamp}`)
+      )
+      .map((e) => ({
+        device_id: e.device_id,
+        timestamp: e.timestamp,
+        battery_level: e.data.battery_level,
+        gps_lat: e.data.gps_lat ?? null,
+        gps_lng: e.data.gps_lng ?? null,
+        temperature: e.data.temperature ?? null,
+        food_level_grams: e.data.food_level_grams ?? null,
+        water_level: e.data.water_level ?? null,
+      }));
+
+    if (newRows.length === 0) return;
+
+    const merged = [...this.deviceData(), ...newRows].sort(
+      (a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+    );
+    this.deviceData.set(merged);
+    if (this.isBrowser) setTimeout(() => this.rebuildChart(), 50);
+    this.cdr.detectChanges();
+  }
 
   loadData(): void {
     const petId = this.activePetService.activePetId();
@@ -321,6 +428,8 @@ export class HealthMonitoring implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
     if (this.chart) {
       this.chart.destroy();
       this.chart = null;

@@ -96,13 +96,12 @@ export class SystemHealth implements OnInit {
       next: (devices) => {
         this.devices.set(devices);
         this.deviceDataService.findAll().subscribe({
-          next: (data) => {
-            this.deviceData.set(
-              [...data].sort(
-                (a, b) =>
-                  new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
-              )
+          next: (data: DeviceDatum[]) => {
+            const sorted: DeviceDatum[] = [...data].sort(
+              (a, b) =>
+                new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
             );
+            this.deviceData.set(sorted);
             this.loading.set(false);
             if (this.isBrowser) {
               setTimeout(() => this.buildConnectivityChart(), 50);
@@ -110,14 +109,18 @@ export class SystemHealth implements OnInit {
               this.loading.set(false);
             }
           },
-          error: (err) => {
-            this.errorMessage.set(err?.message ?? 'Failed to load device data');
+          error: (err: unknown) => {
+            this.errorMessage.set(
+              err instanceof Error ? err.message : 'Failed to load device data'
+            );
             this.loading.set(false);
           },
         });
       },
-      error: (err) => {
-        this.errorMessage.set(err?.message ?? 'Failed to load devices');
+      error: (err: unknown) => {
+        this.errorMessage.set(
+          err instanceof Error ? err.message : 'Failed to load devices'
+        );
         this.loading.set(false);
       },
     });

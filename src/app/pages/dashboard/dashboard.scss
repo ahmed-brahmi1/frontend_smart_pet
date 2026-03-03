@@ -3,6 +3,24 @@
   color: var(--color-text-primary);
 }
 
+.dashboard-header-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.dashboard-header-row__left {
+  min-width: 0;
+}
+
+.dashboard-header-row__right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
 .dashboard-page__title {
   font-family: var(--font-heading);
   font-size: 1.75rem;
@@ -17,12 +35,102 @@
   font-size: 0.9375rem;
 }
 
+.status-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  font-size: 0.8125rem;
+}
+
+.status-indicator__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--color-text-secondary);
+}
+
+.status-indicator__label {
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+}
+
+.status-indicator--online {
+  background: rgba(34, 197, 94, 0.12);
+  border-color: rgba(34, 197, 94, 0.4);
+
+  .status-indicator__dot {
+    background: #22c55e;
+  }
+}
+
+.status-indicator--offline {
+  background: rgba(148, 163, 184, 0.12);
+  border-color: rgba(148, 163, 184, 0.4);
+
+  .status-indicator__dot {
+    background: #64748b;
+  }
+}
+
+.battery-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  font-size: 0.8125rem;
+}
+
+.battery-indicator__label {
+  color: var(--color-text-secondary);
+}
+
+.battery-indicator__value {
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
 /* Stats cards – glassmorphism */
 .cards {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 1.25rem;
   margin-bottom: 2rem;
+}
+
+.pet-summary-row {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.primary-cards-row {
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+}
+
+/* Location card full width + alerts stacked below */
+.location-alerts-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.location-alerts-stack .map-card {
+  width: 100%;
+}
+
+.location-alerts-stack .map-card__body {
+  min-height: 380px;
+}
+
+.location-alerts-stack .map-card__iframe {
+  height: 420px;
 }
 
 .card {
@@ -54,6 +162,39 @@
     font-weight: 700;
     color: var(--color-text-primary);
   }
+}
+
+.pet-summary-card__content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.pet-summary-card__name {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.pet-summary-card__meta {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+
+.pet-summary-card__species {
+  text-transform: capitalize;
+}
+
+.pet-summary-card__breed {
+  text-transform: capitalize;
+}
+
+.pet-summary-card__separator {
+  opacity: 0.7;
 }
 
 .dashboard-container {
@@ -203,82 +344,119 @@
 }
 
 .device-section {
-  margin-bottom: 1.5rem;
-
-  h2 {
-    font-size: 1.125rem;
-    font-weight: 600;
-    color: var(--color-text-primary);
-    margin-bottom: 1rem;
-    font-family: var(--font-body);
-  }
 }
 
-.device-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-
-.device-card {
+.map-card__header {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.map-card__body {
+  border-radius: 0.75rem;
+  overflow: hidden;
+  background: rgba(15, 23, 42, 0.7);
+  min-height: 200px;
+  display: flex;
+  align-items: stretch;
+  justify-content: stretch;
+}
+
+.map-card__iframe {
+  width: 100%;
+  height: 260px;
+  border: 0;
+}
+
+.map-card__placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+}
+
+.alerts-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.alerts-card__body {
+  max-height: 260px;
+  overflow-y: auto;
+}
+
+.alerts-card__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
   gap: 0.75rem;
-  padding: 1rem 1.25rem;
-  background: var(--glass-bg);
-  backdrop-filter: blur(var(--glass-blur));
-  border: var(--glass-border);
-  border-radius: var(--glass-radius-card);
-  box-shadow: var(--glass-shadow);
-  text-decoration: none;
-  color: var(--color-text-primary);
-  min-width: 220px;
-  transition: all 0.3s ease;
-
-  &:hover {
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
-    transform: translateY(-2px);
-    border-color: rgba(255, 255, 255, 0.15);
-  }
-
-  &:focus-visible {
-    outline: 2px solid var(--color-primary-gold);
-    outline-offset: 2px;
-  }
 }
 
-.device-mac {
+.alerts-card__item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.alerts-card__badge {
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
   font-weight: 600;
-  color: var(--color-text-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
 }
 
-.device-badge {
-  padding: 0.25rem 0.5rem;
-  border-radius: 0.375rem;
-  font-size: 0.6875rem;
-  font-weight: 600;
-
-  &.collar {
-    background: rgba(212, 175, 55, 0.2);
-    color: var(--color-primary-gold);
-  }
-
-  &.feeder {
-    background: rgba(212, 175, 55, 0.2);
-    color: var(--color-primary-gold);
-  }
+.alerts-card__badge--temperature {
+  background: rgba(59, 130, 246, 0.2);
+  color: #60a5fa;
 }
 
-.device-status {
+.alerts-card__badge--battery {
+  background: rgba(234, 179, 8, 0.2);
+  color: #facc15;
+}
+
+.alerts-card__badge--connection {
+  background: rgba(248, 113, 113, 0.2);
+  color: #f97373;
+}
+
+.alerts-card__text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.alerts-card__message {
+  font-size: 0.9rem;
+}
+
+.alerts-card__timestamp {
   font-size: 0.75rem;
   color: var(--color-text-secondary);
-  margin-left: auto;
+}
+
+.alerts-card__placeholder {
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
 }
 
 // Responsive
 @media (min-width: 768px) {
   .charts-grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .dashboard-header-row {
+    align-items: center;
   }
 }
 
